@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoolBox - Unbox Wisdom. Play with Ideas. Transform Your World.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #ff4757, #ff6b7a);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section.hidden {
+            display: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .purpose-statement {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #ff4757;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Toolkits Section */
+        .toolkits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .toolkit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .toolkit-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .toolkit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Card Gallery */
+        .card-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card-theme {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .card-quote {
+            font-style: italic;
+            color: #555;
+        }
+
+        /* PAR Step Section */
+        .par-step {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 600px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .shuffle-btn {
+            background: #00b894;
+            color: white;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .shuffle-btn:hover {
+            background: #00a085;
+            transform: scale(1.05);
+        }
+
+        .selected-card {
+            background: white;
+            color: #333;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Characters Section */
+        .characters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin: 4rem 0;
+        }
+
+        .character {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .character-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .wonder-avatar {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+
+        .kool-avatar {
+            background: linear-gradient(135deg, #ff4757, #ff6b7a);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardFlip {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        .card-flip {
+            animation: cardFlip 0.8s ease-in-out;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .characters {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Color coding for themes */
+        .philosophy { border-left: 5px solid #00b894; }
+        .management { border-left: 5px solid #0984e3; }
+        .culture { border-left: 5px solid #fd79a8; }
+        .innovation { border-left: 5px solid #fdcb6e; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🎲 KoolBox</div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                <li><a href="#cards" onclick="showSection('cards')">Explore Cards</a></li>
+                <li><a href="#characters" onclick="showSection('characters')">Meet Wonder & Kool</a></li>
+                <li><a href="#why" onclick="showSection('why')">Why KoolBox?</a></li>
+                <li><a href="#how" onclick="showSection('how')">How to Use</a></li>
+                <li><a href="#who" onclick="showSection('who')">Who Uses It?</a></li>
+                <li><a href="#where" onclick="showSection('where')">Where to Use?</a></li>
+                <li><a href="#shop" onclick="showSection('shop')">Shop</a></li>
+                <li><a href="#contribute" onclick="showSection('contribute')">Your Tool</a></li>
+                <li><a href="#foundation" onclick="showSection('foundation')">Foundation</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <div class="hero">
+                <h1>🎲 KoolBox</h1>
+                <div class="tagline">Unbox Wisdom. Play with Ideas. Transform Your World.</div>
+                <div class="purpose-statement">Inspiring people on their path to achieving creativity. Never stop creating!</div>
+                <div class="cta-buttons">
+                    <a href="#cards" class="btn btn-primary" onclick="showSection('cards')">Explore the Cards</a>
+                    <a href="#shop" class="btn btn-secondary" onclick="showSection('shop')">Buy KoolBox Now!</a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Discover the Toolkits: Four Ways to Unlock Wisdom</h2>
+                <p style="text-align: center; margin-bottom: 3rem; font-size: 1.2rem;">The KoolBox is more than a card game—it's a toolkit for life. Each card belongs to one of four categories, each inspired by a metaphor that makes exploring wisdom fun and engaging.</p>
+                
+                <div class="toolkits">
+                    <div class="toolkit-card philosophy">
+                        <div class="toolkit-icon">🌱</div>
+                        <h3>Gardening Tools (Philosophy)</h3>
+                        <p>For growth, reflection, and nurturing life wisdom.</p>
+                    </div>
+                    <div class="toolkit-card management">
+                        <div class="toolkit-icon">🔧</div>
+                        <h3>Maintaining Tools (Management)</h3>
+                        <p>For organizing, planning, and sustaining progress.</p>
+                    </div>
+                    <div class="toolkit-card culture">
+                        <div class="toolkit-icon">👨‍🍳</div>
+                        <h3>Cooking Tools (Culture)</h3>
+                        <p>For fostering creativity, connection, and shared values.</p>
+                    </div>
+                    <div class="toolkit-card innovation">
+                        <div class="toolkit-icon">📐</div>
+                        <h3>Designing Tools (Innovation)</h3>
+                        <p>For problem-solving, creative thinking, and building solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards Section -->
+        <section id="cards" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Explore the Cards</h2>
+            
+            <!-- Card of the Week -->
+            <div style="background: linear-gradient(135deg, #00b894, #00a085); color: white; padding: 3rem; border-radius: 20px; text-align: center; margin-bottom: 3rem;">
+                <h3 style="font-size: 2rem; margin-bottom: 1rem;">Card of the Week</h3>
+                <div style="background: white; color: #333; padding: 2rem; border-radius: 15px; display: inline-block; margin: 1rem;">
+                    <h4 style="color: #00b894;">First Step</h4>
+                    <p style="font-style: italic; margin: 1rem 0;">"Every journey begins with a single step"</p>
+                    <span style="background: #00b894; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">Philosophy</span>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <span style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px;">⏰ 3 days left until next card!</span>
+                </div>
+            </div>
+
+            <!-- Card Gallery -->
+            <div class="card-gallery" id="cardGallery">
+                <!-- Cards will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Characters Section -->
+        <section id="characters" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Meet Wonder & Kool</h2>
+            
+            <div class="characters">
+                <div class="character">
+                    <div class="character-avatar wonder-avatar">👩‍🎓</div>
+                    <h3>Wonder</h3>
+                    <p>A curious, creative 20-something with white glasses, long hair, short jeans, and sneakers. Represents imagination and exploration.</p>
+                    <blockquote style="font-style: italic; margin: 2rem 0; color: #74b9ff;">
+                        "Every question is a seed. Let's plant it!"
+                    </blockquote>
+                </div>
+                
+                <div class="character">
+                    <div class="character-avatar kool-avatar">🧰</div>
+                    <h3>Kool</h3>
+                    <p>A wise, approachable red toolbox with a grey bottom and four wheels. Inside the grey compartment lie all 52 KoolBox cards. Represents thoughtful action and leadership.</p>
+                    <blockquote style="font-style: italic; margin: 2rem 0; color: #ff4757;">
+                        "Every great plan starts with an organized mind."
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why KoolBox Section -->
+        <section id="why" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Why KoolBox?</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 3rem 0;">
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🧠</div>
+                    <h3>Gain Practical Wisdom</h3>
+                    <p>Improve decision-making with insights from philosophy, management, culture, and innovation.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💡</div>
+                    <h3>Enhance Creativity</h3>
+                    <p>Unlock creative thinking and critical problem-solving skills for personal and professional growth.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🤝</div>
+                    <h3>Strengthen Relationships</h3>
+                    <p>Build deeper connections at work, home, and beyond through meaningful conversations and shared wisdom.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 3rem 0; padding: 2rem; background: linear-gradient(135deg, #fd79a8, #e84393); color: white; border-radius: 15px;">
+                <h3>Our mission is simple: inspiring people on their path to achieving creativity. Never stop creating!</h3>
+            </div>
+        </section>
+
+        <!-- How to Use Section -->
+        <section id="how" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">How to Use: The PAR Step</h2>
+            
+            <div class="par-step">
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">Try the PAR Method</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2rem 0; text-align: left;">
+                    <div>
+                        <h4>1. Pick</h4>
+                        <p>Choose a card that resonates with your current challenge or question.</p>
+                    </div>
+                    <div>
+                        <h4>2. Ask</h4>
+                        <p>Reflect on the card's wisdom and ask how it applies to your situation.</p>
+                    </div>
+                    <div>
+                        <h4>3. Rethink</h4>
+                        <p>Use the insights to shift your perspective, solve problems, or inspire action.</p>
+                    </div>
+                </div>
+                
+                <input type="text" class="question-input" id="userQuestion" placeholder="What's one way I can improve my leadership skills?">
+                <br>
+                <button class="shuffle-btn" onclick="shuffleCard()">Shuffle the Deck</button>
+                
+                <div id="selectedCard" class="selected-card" style="display: none;">
+                    <!-- Selected card will appear here -->
+                </div>
+            </div>
+
+            <!-- Top 10 Questions -->
+            <div style="margin: 3rem 0;">
+                <h3 style="text-align: center; margin-bottom: 2rem;">Top 10 Frequent Questions</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                    <div class="card">How can I improve my grades this semester?</div>
+                    <div class="card">What's the best way to make new friends?</div>
+                    <div class="card">How can we increase profits for our company this year?</div>
+                    <div class="card">What steps can I take to improve my time management skills?</div>
+                    <div class="card">How can I become a better leader in my team or community?</div>
+                    <div class="card">What's one small habit I can change to improve my health?</div>
+                    <div class="card">How can I communicate more effectively with my coworkers?</div>
+                    <div class="card">What's a creative way to solve my current work challenge?</div>
+                    <div class="card">How can I stay motivated when I encounter setbacks?</div>
+                    <div class="card">What's one area of my life I should focus on improving next?</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Who Uses KoolBox Section -->
+        <section id="who" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Who Will Use KoolBox?</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">👔</div>
+                    <h3>Employees</h3>
+                    <p>Use KoolBox during brainstorming sessions or team-building exercises to spark creativity and improve collaboration.</p>
+                </div>
+                
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍👩‍👧‍👦</div>
+                    <h3>Families & Friends</h3>
+                    <p>Strengthen relationships by sharing wisdom and exploring meaningful conversations during casual gatherings.</p>
+                </div>
+                
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">👑</div>
+                    <h3>Leaders</h3>
+                    <p>Inspire teams by using the cards to make decisions, define visions, and encourage innovation.</p>
+                </div>
+                
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🏃‍♀️</div>
+                    <h3>Coaches</h3>
+                    <p>Provide powerful tools for guiding clients toward clarity, self-awareness, and action.</p>
+                </div>
+                
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🎓</div>
+                    <h3>Students</h3>
+                    <p>Use KoolBox to develop critical thinking skills, solve problems creatively, and manage academic challenges.</p>
+                </div>
+                
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">👨‍🏫</div>
+                    <h3>Teachers</h3>
+                    <p>Engage students with creative tools that encourage critical thinking, collaboration, and problem-solving in the classroom.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Where to Use Section -->
+        <section id="where" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Where to Use KoolBox?</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div class="card" style="cursor: pointer;" onclick="showLocation('home')">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏠</div>
+                    <h3>Home</h3>
+                    <p>Use the cards for personal reflection, journaling, or meaningful family discussions.</p>
+                </div>
+                
+                <div class="card" style="cursor: pointer;" onclick="showLocation('office')">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏢</div>
+                    <h3>Office</h3>
+                    <p>Facilitate creative brainstorming sessions, strategy meetings, or team-building exercises.</p>
+                </div>
+                
+                <div class="card" style="cursor: pointer;" onclick="showLocation('beach')">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏖️</div>
+                    <h3>Beach</h3>
+                    <p>Relax and spark new ideas in a casual, fun environment while enjoying nature.</p>
+                </div>
+                
+                <div class="card" style="cursor: pointer;" onclick="showLocation('classroom')">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+                    <h3>Classrooms</h3>
+                    <p>Engage students with thought-provoking exercises and discussions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section id="shop" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Shop KoolBox</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                <div>
+                    <div style="background: linear-gradient(135deg, #ff4757, #ff6b7a); height: 400px; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        🎲📦
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="font-size: 2rem; margin-bottom: 2rem;">The Complete KoolBox Set</h3>
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">Transform your thinking with 52 wisdom-packed cards covering Philosophy, Management, Culture, and Innovation.</p>
+                    
+                    <div style="margin: 2rem 0;">
+                        <h4>What's Included:</h4>
+                        <ul style="margin-left: 2rem; margin-top: 1rem;">
+                            <li>52 KoolBox wisdom cards</li>
+                            <li>PAR Method guide</li>
+                            <li>Premium storage box</li>
+                            <li>Digital access to expanded content</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin: 2rem 0;">
+                        <div style="font-size: 2rem; font-weight: bold; color: #ff4757;">$89 HKD</div>
+                        <div style="color: #666;">Free shipping for orders over $50!</div>
+                        <div style="color: #00b894; margin-top: 1rem;">✅ HK$10 from every sale goes to Kool Foundation</div>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%; font-size: 1.3rem; padding: 1.5rem;">Add to Cart - Order Now!</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Your Tool Section -->
+        <section id="contribute" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Your Own Tool: Share Your Wisdom</h2>
+            
+            <div style="background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <h3 style="text-align: center; margin-bottom: 2rem;">Have a tool that's helped you grow? Share it with the KoolBox community!</h3>
+                
+                <form style="max-width: 600px; margin: 0 auto;">
+                    <div style="margin-bottom: 2rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Tool Name:</label>
+                        <input type="text" style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px;" placeholder="What's your tool called?">
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Category:</label>
+                        <select style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px;">
+                            <option>Philosophy</option>
+                            <option>Management</option>
+                            <option>Culture</option>
+                            <option>Innovation</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Your Story:</label>
+                        <textarea style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px; height: 150px;" placeholder="Share how you created or used this tool..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Share My Tool</button>
+                </form>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <p>Share on social media with <strong>#MyKoolBoxTool</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Foundation Section -->
+        <section id="foundation" class="section hidden">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Kool Foundation</h2>
+            
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <p style="font-size: 1.3rem;">A registered NGO founded by Kool Limited to support Hong Kong's elderly and youth.</p>
+                <div style="background: #00b894; color: white; padding: 1rem 2rem; border-radius: 50px; display: inline-block; margin: 2rem 0;">
+                    <strong>HK$10 from every KoolBox sale goes to the foundation</strong>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin: 3rem 0;">
+                <div style="background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 2rem;">👴👵</div>
+                    <h3>Elderly Support Programs</h3>
+                    <p>Provide companionship, access to resources, and emotional well-being initiatives for seniors. Including free rice and food packs.</p>
+                </div>
+                
+                <div style="background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 2rem;">👦👧</div>
+                    <h3>Youth Empowerment Programs</h3>
+                    <p>Offer mentorship opportunities, educational workshops, and creative projects for young people.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 3rem 0;">
+                <h3>How You Can Help</h3>
+                <div style="display: flex; justify-content: center; gap: 2rem; margin: 2rem 0;">
+                    <button class="btn btn-primary">Purchase KoolBox</button>
+                    <button class="btn btn-secondary">Donate Directly</button>
+                    <button class="btn btn-secondary">Volunteer</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+            <p>&copy; 2025 KoolBox. Inspiring people on their path to achieving creativity. Never stop creating!</p>
+            <div style="margin-top: 1rem;">
+                <span>Follow us: 📱 Instagram | 🐦 Twitter | 📘 Facebook</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Card data
+        const cards = [
+            {title: "First Step", quote: "Every journey begins with a single step", theme: "Philosophy", category: "philosophy"},
+            {title: "Be Water", quote: "Flexibility is the ultimate strength", theme: "Philosophy", category: "philosophy"},
+            {title: "NOW", quote: "The power lies in the present moment", theme: "Philosophy", category: "philosophy"},
+            {title: "Five Constant Virtues", quote: "Nurture wisdom, integrity, and compassion", theme: "Philosophy", category: "philosophy"},
+            {title: "Ying Yang", quote: "Embrace opposites to find harmony", theme: "Philosophy", category: "philosophy"},
+            {title: "Sharpen the Saw", quote: "Refine your skills and mindset", theme: "Philosophy", category: "philosophy"},
+            {title: "PEACE Method", quote: "Build relationships with patience and determination", theme: "Philosophy", category: "philosophy"},
+            {title: "Enneagram", quote: "Uncover truths about yourself", theme: "Philosophy", category: "philosophy"},
+            {title: "Ten Factors of Life", quote: "Unlock life's mysteries with clarity", theme: "Philosophy", category: "philosophy"},
+            {title: "21-Day Glasses", quote: "See clearly and embrace self-reflection", theme: "Philosophy", category: "philosophy"},
+            {title: "Fightless Win", quote: "Achieve success without unnecessary conflict", theme: "Philosophy", category: "philosophy"},
+            {title: "Growth Mindset", quote: "Turn challenges into stepping stones", theme: "Philosophy", category: "philosophy"},
+            {title: "Learn Earn Return", quote: "Plant seeds of wisdom and give back", theme: "Philosophy", category: "philosophy"},
+            
+            {title: "Habit Contract", quote: "Transform routines with commitment", theme: "Management", category: "management"},
+            {title: "Do Hard Things First", quote: "Start strong to finish stronger", theme: "Management", category: "management"},
+            {title: "➕➖✖️➗", quote: "Find the perfect fit for every problem", theme: "Management", category: "management"},
+            {title: "5W1H", quote: "Strengthen understanding with right questions", theme: "Management", category: "management"},
+            {title: "6 Persuasive Leadership", quote: "Inspire effectively with tailored approaches", theme: "Management", category: "management"},
+            {title: "7 Drucker Principles", quote: "Lead with precision and purpose", theme: "Management", category: "management"},
+            {title: "80/20", quote: "Focus on the vital 20% that drives 80% of results", theme: "Management", category: "management"},
+            {title: "SWOT", quote: "Identify strengths, weaknesses, opportunities, threats", theme: "Management", category: "management"},
+            {title: "Weekly Goal", quote: "Small steps lead to big wins", theme: "Management", category: "management"},
+            {title: "Due Diligence", quote: "Prevent mistakes with solid preparation", theme: "Management", category: "management"},
+            {title: "SWIFT Conversation", quote: "Deliver the right message at the right time", theme: "Management", category: "management"},
+            {title: "4Q Leadership", quote: "Illuminate the path with clarity", theme: "Management", category: "management"},
+            {title: "OKR", quote: "Focused goals align efforts and prevent chaos", theme: "Management", category: "management"},
+            
+            {title: "Never Stop Creating", quote: "Let your imagination flow freely", theme: "Culture", category: "culture"},
+            {title: "Life Experience Map", quote: "Savor moments that shape who you are", theme: "Culture", category: "culture"},
+            {title: "We Rhyme We Kool", quote: "Laughter is the secret ingredient to healing", theme: "Culture", category: "culture"},
+            {title: "Vocab of the Day", quote: "Words have power—choose them wisely", theme: "Culture", category: "culture"},
+            {title: "Koolers Story", quote: "Celebrate and share unique experiences", theme: "Culture", category: "culture"},
+            {title: "Weekly Kool News", quote: "Build something extraordinary together", theme: "Culture", category: "culture"},
+            {title: "Book Club", quote: "Dive into books and unlock new perspectives", theme: "Culture", category: "culture"},
+            {title: "Advisory Board", quote: "Good advice is a recipe for success", theme: "Culture", category: "culture"},
+            {title: "5 Kool Tenets", quote: "Measure life by your values", theme: "Culture", category: "culture"},
+            {title: "Purpose Statement", quote: "Energize meaningful, impactful actions", theme: "Culture", category: "culture"},
+            {title: "Wellness Boosters", quote: "Nourish body, mind, and soul", theme: "Culture", category: "culture"},
+            {title: "Kool Foundation", quote: "Build relationships with compassion", theme: "Culture", category: "culture"},
+            {title: "KoolBook", quote: "Capture knowledge and inspire future generations", theme: "Culture", category: "culture"},
+            
+            {title: "25 Bullets Writing", quote: "Organize thoughts and create clarity", theme: "Innovation", category: "innovation"},
+            {title: "Innovation Day", quote: "Connections spark breakthroughs", theme: "Innovation", category: "innovation"},
+            {title: "4P Presentation", quote: "Deliver your pitch with precision and impact", theme: "Innovation", category: "innovation"},
+            {title: "5 Branding Discipline", quote: "Focus on identity and values to stand out", theme: "Innovation", category: "innovation"},
+            {title: "Lean Canvas", quote: "Sketch bold ideas and refine with agility", theme: "Innovation", category: "innovation"},
+            {title: "Emotion by Design", quote: "Create a legacy, not just a memory", theme: "Innovation", category: "innovation"},
+            {title: "Visual Thinking", quote: "Transform ideas into clear, memorable visuals", theme: "Innovation", category: "innovation"},
+            {title: "4A Feedback", quote: "Grow through constructive feedback", theme: "Innovation", category: "innovation"},
+            {title: "Prompt Engineering", quote: "Merge mind and machine to unlock potential", theme: "Innovation", category: "innovation"},
+            {title: "Social Ecosystem Map", quote: "Build stronger, more connected communities", theme: "Innovation", category: "innovation"},
+            {title: "Design Thinking", quote: "Understand needs, foster solutions", theme: "Innovation", category: "innovation"},
+            {title: "KoolLab", quote: "Explore and innovate with limitless possibilities", theme: "Innovation", category: "innovation"},
+            {title: "Disruptive Innovation", quote: "Bold ideas drive transformation", theme: "Innovation", category: "innovation"}
+        ];
+
+        // Reflection prompts for different themes
+        const reflectionPrompts = {
+            philosophy: [
+                "What's one thing in your life that deserves more focus right now?",
+                "How can you apply this wisdom to your current situation?",
+                "What small step can you take today to embrace this insight?"
+            ],
+            management: [
+                "How can this principle improve your productivity?",
+                "What's one area of your work that could benefit from this approach?",
+                "What action will you take to implement this strategy?"
+            ],
+            culture: [
+                "How can this idea strengthen your relationships?",
+                "What's one way you can share this wisdom with others?",
+                "How does this connect to your personal values?"
+            ],
+            innovation: [
+                "What creative solution could this inspire?",
+                "How can you apply this to solve a current challenge?",
+                "What new possibility does this open up for you?"
+            ]
+        };
+
+        // Navigation function
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.add('hidden'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Populate card gallery if cards section is shown
+            if (sectionId === 'cards') {
+                populateCardGallery();
+            }
+        }
+
+        // Populate card gallery
+        function populateCardGallery() {
+            const gallery = document.getElementById('cardGallery');
+            gallery.innerHTML = '';
+            
+            cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = `card ${card.category}`;
+                cardElement.innerHTML = `
+                    <div class="card-theme">${card.theme}</div>
+                    <div class="card-title">${card.title}</div>
+                    <div class="card-quote">"${card.quote}"</div>
+                `;
+                gallery.appendChild(cardElement);
+            });
+        }
+
+        // Shuffle card function
+        function shuffleCard() {
+            const selectedCardDiv = document.getElementById('selectedCard');
+            const shuffleBtn = document.querySelector('.shuffle-btn');
+            const question = document.getElementById('userQuestion').value;
+            
+            // Add animation
+            selectedCardDiv.classList.add('card-flip');
+            shuffleBtn.textContent = 'Shuffling...';
+            shuffleBtn.disabled = true;
+            
+            setTimeout(() => {
+                // Select random card
+                const randomCard = cards[Math.floor(Math.random() * cards.length)];
+                const prompts = reflectionPrompts[randomCard.category];
+                
+                selectedCardDiv.innerHTML = `
+                    <h4 style="color: #ff4757; margin-bottom: 1rem;">${randomCard.title}</h4>
+                    <p style="font-style: italic; font-size: 1.2rem; margin-bottom: 1rem;">"${randomCard.quote}"</p>
+                    <span style="background: #${getThemeColor(randomCard.category)}; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">${randomCard.theme}</span>
+                    
+                    ${question ? `<div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                        <strong>Your Question:</strong> ${question}
+                    </div>` : ''}
+                    
+                    <div style="margin-top: 2rem;">
+                        <h5 style="margin-bottom: 1rem;">Reflection Prompts:</h5>
+                        ${prompts.map(prompt => `<p style="margin-bottom: 0.5rem;">• ${prompt}</p>`).join('')}
+                    </div>
+                    
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button onclick="shuffleCard()" style="background: #00b894; color: white; padding: 0.5rem 1rem; border: none; border-radius: 20px; margin-right: 1rem; cursor: pointer;">Shuffle Again</button>
+                        <button onclick="showSection('shop')" style="background: #ff4757; color: white; padding: 0.5rem 1rem; border: none; border-radius: 20px; cursor: pointer;">Get Full KoolBox</button>
+                    </div>
+                `;
+                
+                selectedCardDiv.style.display = 'block';
+                selectedCardDiv.classList.remove('card-flip');
+                shuffleBtn.textContent = 'Shuffle the Deck';
+                shuffleBtn.disabled = false;
+            }, 800);
+        }
+
+        // Get theme color
+        function getThemeColor(category) {
+            const colors = {
+                philosophy: '00b894',
+                management: '0984e3',
+                culture: 'fd79a8',
+                innovation: 'fdcb6e'
+            };
+            return colors[category] || '666';
+        }
+
+        // Location function for where section
+        function showLocation(location) {
+            const locations = {
+                home: "Perfect for quiet reflection and family bonding moments.",
+                office: "Ideal for team meetings and creative brainstorming sessions.",
+                beach: "Relax and let nature inspire your next big idea.",
+                classroom: "Engage students with interactive learning experiences."
+            };
+            
+            alert(`🎲 KoolBox at ${location.charAt(0).toUpperCase() + location.slice(1)}: ${locations[location]}`);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('home');
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
