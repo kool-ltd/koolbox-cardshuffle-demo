@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoolBox - Unbox Wisdom. Play with Ideas. Transform Your World.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #764ba2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .suit-symbol {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .spades { color: #2c3e50; }
+        .hearts { color: #e74c3c; }
+        .diamonds { color: #f39c12; }
+        .clubs { color: #27ae60; }
+
+        .special-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 350px;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            max-height: 500px;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .dropdown-content {
+            padding: 1rem;
+        }
+
+        .card-item {
+            padding: 0.75rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-item:hover {
+            background: #f8f9fa;
+            border-left-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .card-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .card-quote {
+            font-size: 0.85rem;
+            color: #666;
+            font-style: italic;
+            line-height: 1.3;
+        }
+
+        .card-rhyme {
+            font-size: 0.8rem;
+            color: #667eea;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 3rem 0;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .purpose-statement {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 3rem;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .primary-cta {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .secondary-cta {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Toolkits Section */
+        .toolkits-section {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 3rem 0;
+            border-radius: 25px;
+            padding: 3rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .section-description {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #666;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .toolkits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .toolkit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 5px solid;
+        }
+
+        .toolkit-card.philosophy { border-top-color: #2c3e50; }
+        .toolkit-card.management { border-top-color: #f39c12; }
+        .toolkit-card.culture { border-top-color: #e74c3c; }
+        .toolkit-card.innovation { border-top-color: #27ae60; }
+
+        .toolkit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .toolkit-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .toolkit-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .toolkit-subtitle {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .toolkit-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Card of the Week */
+        .card-of-week {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 3rem;
+            border-radius: 25px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .week-card {
+            background: white;
+            color: #333;
+            padding: 2rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 2rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+        }
+
+        /* Card Gallery */
+        .card-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 5px solid;
+        }
+
+        .gallery-card.philosophy { border-left-color: #2c3e50; }
+        .gallery-card.management { border-left-color: #f39c12; }
+        .gallery-card.culture { border-left-color: #e74c3c; }
+        .gallery-card.innovation { border-left-color: #27ae60; }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        /* PAR Method */
+        .par-method {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 4rem;
+            border-radius: 25px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .par-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+            text-align: left;
+        }
+
+        .par-step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 600px;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .shuffle-btn {
+            background: #00b894;
+            color: white;
+            padding: 1.5rem 3rem;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .shuffle-btn:hover {
+            background: #00a085;
+            transform: scale(1.05);
+        }
+
+        .shuffle-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .selected-card {
+            background: white;
+            color: #333;
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 700px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 3% auto;
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Characters */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .character-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .character-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .wonder-avatar {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+
+        .kool-avatar {
+            background: linear-gradient(135deg, #ff4757, #ff6b7a);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardShuffle {
+            0% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(0.8); }
+            100% { transform: rotateY(0deg) scale(1); }
+        }
+
+        .card-shuffle {
+            animation: cardShuffle 1s ease-in-out;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .par-steps {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .characters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dropdown {
+                min-width: 300px;
+                right: 0;
+                left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo" onclick="showSection('home')">
+                    🎲 KoolBox
+                </a>
+                <ul class="nav-menu">
+                    <!-- Philosophy Tools (Spades) -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol spades">♠</span>
+                            Philosophy
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-header">
+                                <span class="suit-symbol spades">♠</span> Gardening Tools - Philosophy
+                            </div>
+                            <div class="dropdown-content" id="philosophyDropdown">
+                                <!-- Cards populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Culture Tools (Hearts) -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol hearts">♥</span>
+                            Culture
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-header">
+                                <span class="suit-symbol hearts">♥</span> Cooking Tools - Culture
+                            </div>
+                            <div class="dropdown-content" id="cultureDropdown">
+                                <!-- Cards populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Management Tools (Diamonds) -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol diamonds">♦</span>
+                            Management
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-header">
+                                <span class="suit-symbol diamonds">♦</span> Maintaining Tools - Management
+                            </div>
+                            <div class="dropdown-content" id="managementDropdown">
+                                <!-- Cards populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Innovation Tools (Clubs) -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol clubs">♣</span>
+                            Innovation
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-header">
+                                <span class="suit-symbol clubs">♣</span> Designing Tools - Innovation
+                            </div>
+                            <div class="dropdown-content" id="innovationDropdown">
+                                <!-- Cards populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- PAR Method -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('how')">
+                            <span class="special-icon">❓</span>
+                            PAR Method
+                        </a>
+                    </li>
+
+                    <!-- Shop -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('shop')">
+                            <span class="special-icon">🛒</span>
+                            Shop
+                        </a>
+                    </li>
+
+                    <!-- Foundation -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('foundation')">
+                            <span class="special-icon">💝</span>
+                            Foundation
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <div class="hero-section">
+                    <h1 class="hero-title">KoolBox</h1>
+                    <h2 class="hero-subtitle">Unbox Wisdom. Play with Ideas. Transform Your World.</h2>
+                    <p class="purpose-statement">
+                        "Inspiring people on their path to achieving creativity. Never stop creating!"
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="#" class="cta-button primary-cta" onclick="showSection('cards')">Explore the Cards</a>
+                        <a href="#" class="cta-button secondary-cta" onclick="showSection('shop')">Buy KoolBox Now!</a>
+                    </div>
+                </div>
+
+                <div class="toolkits-section">
+                    <h2 class="section-title">Discover the Toolkits</h2>
+                    <p class="section-description">
+                        Four Ways to Unlock Wisdom. The KoolBox is more than a card game—it's a toolkit for life. 
+                        Each card belongs to one of four categories, each inspired by a metaphor that makes exploring wisdom fun and engaging.
+                    </p>
+                    <div class="toolkits-grid">
+                        <div class="toolkit-card philosophy">
+                            <div class="toolkit-icon">🌱</div>
+                            <h3 class="toolkit-title">Gardening Tools</h3>
+                            <p class="toolkit-subtitle">Philosophy</p>
+                            <p class="toolkit-description">
+                                For growth, reflection, and nurturing life wisdom. Plant seeds of wisdom and watch your understanding bloom.
+                            </p>
+                        </div>
+                        <div class="toolkit-card culture">
+                            <div class="toolkit-icon">👨‍🍳</div>
+                            <h3 class="toolkit-title">Cooking Tools</h3>
+                            <p class="toolkit-subtitle">Culture</p>
+                            <p class="toolkit-description">
+                                For fostering creativity, connection, and shared values. Mix ingredients of wisdom to create meaningful relationships.
+                            </p>
+                        </div>
+                        <div class="toolkit-card management">
+                            <div class="toolkit-icon">🔧</div>
+                            <h3 class="toolkit-title">Maintaining Tools</h3>
+                            <p class="toolkit-subtitle">Management</p>
+                            <p class="toolkit-description">
+                                For organizing, planning, and sustaining progress. Build solid foundations and maintain steady growth.
+                            </p>
+                        </div>
+                        <div class="toolkit-card innovation">
+                            <div class="toolkit-icon">📐</div>
+                            <h3 class="toolkit-title">Designing Tools</h3>
+                            <p class="toolkit-subtitle">Innovation</p>
+                            <p class="toolkit-description">
+                                For problem-solving, creative thinking, and building solutions. Sketch new possibilities and design your future.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Explore Cards Section -->
+            <section id="cards" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Explore the Cards</h2>
+                    
+                    <!-- Card of the Week -->
+                    <div class="card-of-week">
+                        <h3 style="font-size: 2rem; margin-bottom: 1rem;">Card of the Week</h3>
+                        <div class="week-card">
+                            <h4 style="color: #00b894; font-size: 1.5rem;">First Step</h4>
+                            <p style="font-style: italic; margin: 1rem 0; font-size: 1.1rem;">"Every journey begins with a single step"</p>
+                            <span style="background: #2c3e50; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">Philosophy - Gardening Tools</span>
+                            <p style="margin: 1rem 0; font-size: 0.9rem; color: #667eea;">Leap. Keep. Reap.</p>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <span style="background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; border-radius: 25px; font-size: 1.1rem;">⏰ 3 days left until next card!</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Card Gallery -->
+                    <div class="card-gallery" id="cardGallery">
+                        <!-- Cards populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meet Characters Section -->
+            <section id="characters" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Meet Wonder & Kool</h2>
+                    
+                    <div class="characters-grid">
+                        <div class="character-card">
+                            <div class="character-avatar wonder-avatar">👩‍🎓</div>
+                            <h3>Wonder</h3>
+                            <p>A curious, creative 20-something with white glasses, long hair, short jeans, and sneakers. Represents imagination and exploration.</p>
+                            <blockquote style="font-style: italic; margin: 2rem 0; color: #74b9ff; font-size: 1.2rem;">
+                                "Every question is a seed. Let's plant it!"
+                            </blockquote>
+                        </div>
+                        
+                        <div class="character-card">
+                            <div class="character-avatar kool-avatar">🧰</div>
+                            <h3>Kool</h3>
+                            <p>A wise, approachable red toolbox with a grey bottom and four wheels. Inside the grey compartment lie all 52 KoolBox cards. Represents thoughtful action and leadership.</p>
+                            <blockquote style="font-style: italic; margin: 2rem 0; color: #ff4757; font-size: 1.2rem;">
+                                "Every great plan starts with an organized mind."
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why KoolBox Section -->
+            <section id="why" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Why KoolBox?</h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🧠</div>
+                            <h3>Gain Practical Wisdom</h3>
+                            <p>Improve decision-making with insights from philosophy, management, culture, and innovation.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">💡</div>
+                            <h3>Enhance Creativity</h3>
+                            <p>Unlock creative thinking and critical problem-solving skills for personal and professional growth.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🤝</div>
+                            <h3>Strengthen Relationships</h3>
+                            <p>Build deeper connections at work, home, and beyond through meaningful conversations and shared wisdom.</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 3rem 0; padding: 2rem; background: linear-gradient(135deg, #fd79a8, #e84393); color: white; border-radius: 20px;">
+                        <h3 style="font-size: 1.5rem;">Our mission is simple: inspiring people on their path to achieving creativity. Never stop creating!</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How to Use Section -->
+            <section id="how" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">How to Use: The PAR Step</h2>
+                    
+                    <div class="par-method">
+                        <h3 style="font-size: 2rem; margin-bottom: 2rem;">Try the PAR Method</h3>
+                        
+                        <div class="par-steps">
+                            <div class="par-step">
+                                <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">1. Pick</h4>
+                                <p>Choose a card that resonates with your current challenge or question.</p>
+                            </div>
+                            <div class="par-step">
+                                <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">2. Ask</h4>
+                                <p>Reflect on the card's wisdom and ask how it applies to your situation.</p>
+                            </div>
+                            <div class="par-step">
+                                <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">3. Rethink</h4>
+                                <p>Use the insights to shift your perspective, solve problems, or inspire action.</p>
+                            </div>
+                        </div>
+                        
+                        <input type="text" class="question-input" id="userQuestion" placeholder="What's one way I can improve my leadership skills?">
+                        <br>
+                        <button class="shuffle-btn" onclick="shuffleCard()">Shuffle the Deck</button>
+                        
+                        <div id="selectedCard" class="selected-card">
+                            <!-- Selected card will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Top 10 Questions -->
+                    <div style="margin: 3rem 0;">
+                        <h3 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Top 10 Frequent Questions for PAR Step</h3>
+                        <div class="features-grid">
+                            <div class="feature-card" onclick="fillQuestion('How can I improve my grades this semester?')">How can I improve my grades this semester?</div>
+                            <div class="feature-card" onclick="fillQuestion('What\'s the best way to make new friends?')">What's the best way to make new friends?</div>
+                            <div class="feature-card" onclick="fillQuestion('How can we increase profits for our company this year?')">How can we increase profits for our company this year?</div>
+                            <div class="feature-card" onclick="fillQuestion('What steps can I take to improve my time management skills?')">What steps can I take to improve my time management skills?</div>
+                            <div class="feature-card" onclick="fillQuestion('How can I become a better leader in my team or community?')">How can I become a better leader in my team or community?</div>
+                            <div class="feature-card" onclick="fillQuestion('What\'s one small habit I can change to improve my health?')">What's one small habit I can change to improve my health?</div>
+                            <div class="feature-card" onclick="fillQuestion('How can I communicate more effectively with my coworkers?')">How can I communicate more effectively with my coworkers?</div>
+                            <div class="feature-card" onclick="fillQuestion('What\'s a creative way to solve my current work challenge?')">What's a creative way to solve my current work challenge?</div>
+                            <div class="feature-card" onclick="fillQuestion('How can I stay motivated when I encounter setbacks?')">How can I stay motivated when I encounter setbacks?</div>
+                            <div class="feature-card" onclick="fillQuestion('What\'s one area of my life I should focus on improving next?')">What's one area of my life I should focus on improving next?</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Who Uses Section -->
+            <section id="who" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Who Will Use KoolBox?</h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">👔</div>
+                            <h3>Employees</h3>
+                            <p>Use KoolBox during brainstorming sessions or team-building exercises to spark creativity and improve collaboration.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                            <h3>Families & Friends</h3>
+                            <p>Strengthen relationships by sharing wisdom and exploring meaningful conversations during casual gatherings.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">👑</div>
+                            <h3>Leaders</h3>
+                            <p>Inspire teams by using the cards to make decisions, define visions, and encourage innovation.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🏃‍♀️</div>
+                            <h3>Coaches</h3>
+                            <p>Provide powerful tools for guiding clients toward clarity, self-awareness, and action.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🎓</div>
+                            <h3>Students</h3>
+                            <p>Use KoolBox to develop critical thinking skills, solve problems creatively, and manage academic challenges.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">👨‍🏫</div>
+                            <h3>Teachers</h3>
+                            <p>Engage students with creative tools that encourage critical thinking, collaboration, and problem-solving in the classroom.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Where to Use Section -->
+            <section id="where" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Where to Use KoolBox?</h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card" style="cursor: pointer;" onclick="showLocation('home')">
+                            <div class="feature-icon">🏠</div>
+                            <h3>Home</h3>
+                            <p>Use the cards for personal reflection, journaling, or meaningful family discussions.</p>
+                        </div>
+                        
+                        <div class="feature-card" style="cursor: pointer;" onclick="showLocation('office')">
+                            <div class="feature-icon">🏢</div>
+                            <h3>Office</h3>
+                            <p>Facilitate creative brainstorming sessions, strategy meetings, or team-building exercises.</p>
+                        </div>
+                        
+                        <div class="feature-card" style="cursor: pointer;" onclick="showLocation('beach')">
+                            <div class="feature-icon">🏖️</div>
+                            <h3>Beach</h3>
+                            <p>Relax and spark new ideas in a casual, fun environment while enjoying nature.</p>
+                        </div>
+                        
+                        <div class="feature-card" style="cursor: pointer;" onclick="showLocation('classroom')">
+                            <div class="feature-icon">🎓</div>
+                            <h3>Classrooms</h3>
+                            <p>Engage students with thought-provoking exercises and discussions.</p>
+                        </div>
+                        
+                        <div class="feature-card" style="cursor: pointer;" onclick="showLocation('workshop')">
+                            <div class="feature-icon">🛠️</div>
+                            <h3>Workshops</h3>
+                            <p>Use the cards to inspire interactive group activities and creative exercises.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shop Section -->
+            <section id="shop" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Shop KoolBox</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                        <div>
+                            <div style="background: linear-gradient(135deg, #ff4757, #ff6b7a); height: 400px; border-radius: 25px; display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
+                                🎲📦
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 style="font-size: 2.2rem; margin-bottom: 2rem; color: #333;">The Complete KoolBox Set</h3>
+                            <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #666;">Transform your thinking with 52 wisdom-packed cards covering Philosophy, Management, Culture, and Innovation.</p>
+                            
+                            <div style="margin: 2rem 0; background: #f8f9fa; padding: 2rem; border-radius: 15px;">
+                                <h4 style="color: #333; margin-bottom: 1rem;">What's Included:</h4>
+                                <ul style="margin-left: 2rem; margin-top: 1rem; color: #666;">
+                                    <li>52 KoolBox wisdom cards with three-word rhymes</li>
+                                    <li>Complete PAR Method guide</li>
+                                    <li>Premium storage box (Kool toolbox design)</li>
+                                    <li>Digital access to expanded content</li>
+                                    <li>Quick reference card for all 4 toolkits</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #00b894, #00a085); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; text-align: center;">
+                                <div style="font-size: 2.5rem; font-weight: bold;">$89 HKD</div>
+                                <div style="opacity: 0.9; margin: 0.5rem 0;">Free shipping for orders over $50!</div>
+                                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                                    ✅ HK$10 from every sale goes to Kool Foundation
+                                </div>
+                            </div>
+                            
+                            <button class="cta-button primary-cta" style="width: 100%; font-size: 1.3rem; padding: 1.5rem;" onclick="addToCart()">Add to Cart - Order Now!</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Your Tool Section -->
+            <section id="contribute" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Your Own Tool: Share Your Wisdom</h2>
+                    
+                    <div style="background: white; padding: 3rem; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto;">
+                        <h3 style="text-align: center; margin-bottom: 2rem; color: #333;">Have a tool that's helped you grow? Share it with the KoolBox community!</h3>
+                        
+                        <form style="max-width: 600px; margin: 0 auto;">
+                            <div style="margin-bottom: 2rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">Tool Name:</label>
+                                <input type="text" style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem;" placeholder="What's your tool called?">
+                            </div>
+                            
+                            <div style="margin-bottom: 2rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">Category:</label>
+                                <select style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem;">
+                                    <option>Philosophy (Gardening Tools)</option>
+                                    <option>Management (Maintaining Tools)</option>
+                                    <option>Culture (Cooking Tools)</option>
+                                    <option>Innovation (Designing Tools)</option>
+                                </select>
+                            </div>
+                            
+                            <div style="margin-bottom: 2rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">Purpose/Use Case:</label>
+                                <input type="text" style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem;" placeholder="How does it help in real life?">
+                            </div>
+                            
+                            <div style="margin-bottom: 2rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333;">Your Story:</label>
+                                <textarea style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 10px; height: 150px; font-size: 1rem;" placeholder="Share how you created or used this tool..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="cta-button primary-cta" style="width: 100%;">Share My Tool</button>
+                        </form>
+                        
+                        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: #f8f9fa; border-radius: 15px;">
+                            <p style="margin-bottom: 1rem;">Share on social media with <strong>#MyKoolBoxTool</strong></p>
+                            <div style="display: flex; justify-content: center; gap: 1rem;">
+                                <span style="background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;">📱 Instagram</span>
+                                <span style="background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;">🐦 Twitter</span>
+                                <span style="background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer;">📘 Facebook</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Foundation Section -->
+            <section id="foundation" class="section">
+                <div class="content-section">
+                    <h2 class="section-title">Kool Foundation</h2>
+                    
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <p style="font-size: 1.3rem; color: #666; margin-bottom: 2rem;">A registered NGO founded by Kool Limited to support Hong Kong's elderly and youth.</p>
+                        <div style="background: #00b894; color: white; padding: 1.5rem 3rem; border-radius: 30px; display: inline-block; font-size: 1.2rem; font-weight: 600;">
+                            HK$10 from every KoolBox sale goes to the foundation
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin: 4rem 0;">
+                        <div style="background: white; padding: 3rem; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 4rem; margin-bottom: 2rem;">👴👵</div>
+                            <h3 style="color: #333; margin-bottom: 1rem;">Elderly Support Programs</h3>
+                            <p style="color: #666; line-height: 1.6;">Provide companionship, access to resources, and emotional well-being initiatives for seniors. Including free rice and food packs for those in need.</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 3rem; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 4rem; margin-bottom: 2rem;">👦👧</div>
+                            <h3 style="color: #333; margin-bottom: 1rem;">Youth Empowerment Programs</h3>
+                            <p style="color: #666; line-height: 1.6;">Offer mentorship opportunities, educational workshops, and creative projects for young people to develop skills and confidence.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 4rem 0;">
+                        <h3 style="margin-bottom: 2rem; color: #333;">How You Can Help</h3>
+                        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                            <button class="cta-button primary-cta" onclick="showSection('shop')">Purchase KoolBox</button>
+                            <button class="cta-button secondary-cta" onclick="donateDirectly()">Donate Directly</button>
+                            <button class="cta-button secondary-cta" onclick="volunteer()">Volunteer</button>
+                        </div>
+                        
+                        <div style="margin-top: 3rem; padding: 2rem; background: #f8f9fa; border-radius: 20px;">
+                            <h4 style="color: #333; margin-bottom: 1rem;">Impact Stories</h4>
+                            <p style="color: #666; line-height: 1.6;">"Thanks to Kool Foundation, we were able to provide weekly meals to 50 elderly residents and creative workshops to 30 young people in our community. Every KoolBox purchase makes a real difference in someone's life."</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Card Details Modal -->
+    <div id="cardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalCardTitle"></h2>
+            <p id="modalCardQuote" style="font-style: italic; font-size: 1.2rem; color: #666; margin: 1rem 0;"></p>
+            <span id="modalCardTheme" style="background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;"></span>
+            <p id="modalCardRhyme" style="color: #667eea; font-weight: 600; margin: 1rem 0;"></p>
+            <div id="modalCardContent" style="margin-top: 2rem; line-height: 1.8; color: #333;"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 KoolBox. "Inspiring people on their path to achieving creativity. Never stop creating!"</p>
+            <div style="margin-top: 1rem;">
+                <span>Follow us: 📱 Instagram | 🐦 Twitter | 📘 Facebook</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Complete card data with rhymes and content
+        const cardData = {
+            philosophy: [
+                { name: "First Step", quote: "Every journey begins with a single step", rhyme: "Leap. Keep. Reap.", content: "Lace up your boots and take that first leap toward growth. Whether it's a new project or personal goal, progress starts now. Embrace the adventure and plant the seeds of success!" },
+                { name: "Be Water", quote: "Flexibility is the ultimate strength", rhyme: "Flow. Grow. Glow.", content: "Inspired by Bruce Lee's wisdom, the idea is to adapt like water—shaping yourself to challenges. Flow through obstacles, nourish your creativity, and let resilience carry you forward." },
+                { name: "NOW", quote: "The power lies in the present moment", rhyme: "Here. Clear. Steer.", content: "The past is gone, and the future is unknown. Embrace the present moment and measure where you are now. Your power lies in the here and now—seize the day!" },
+                { name: "Five Constant Virtues", quote: "Nurture wisdom, integrity, and compassion", rhyme: "Root. Shoot. Fruit.", content: "Align your life with wisdom, integrity, and compassion. Much like tending to a garden, personal growth requires care and nurturing. Cultivate these virtues daily and watch your life bloom with purpose and harmony." },
+                { name: "Ying Yang", quote: "Embrace opposites to find harmony", rhyme: "Align. Combine. Shine.", content: "Balance lies in embracing opposites. The ebb and flow, the light and dark—all are essential parts of life's journey. Harness the power of balance to move forward and thrive in every aspect of your life." },
+                { name: "Sharpen the Saw", quote: "Refine your skills and mindset", rhyme: "Grind. Find. Refined.", content: "A dull tool leads nowhere. Invest in sharpening your skills and strengthening your mind. With consistent effort, cut through challenges and achieve more than ever before. Stay sharp and ready!" },
+                { name: "PEACE Method", quote: "Build relationships with patience and determination", rhyme: "Climb. Time. Prime.", content: "Climb life's ladder one step at a time. Avoid shortcuts or stepping on others along the way. Build peace in your relationships and goals by balancing patience with determination." },
+                { name: "Enneagram", quote: "Uncover truths about yourself", rhyme: "Seek. Peek. Speak.", content: "Dig deep into your personality and motivations. Rake through the leaves of your mind to uncover hidden truths. Self-awareness is the key to unlocking your full potential and living authentically." },
+                { name: "Ten Factors of Life", quote: "Unlock life's mysteries with clarity", rhyme: "Learn. Discern. Earn.", content: "Unlock life's mysteries by gaining wisdom. Gain clarity and direction as you uncover what truly matters. A life guided by understanding and purpose is one of fulfillment and growth." },
+                { name: "21-Day Glasses", quote: "See clearly and embrace self-reflection", rhyme: "See. Be. Free.", content: "Seeing clearly sometimes means facing the truth, even when it's uncomfortable. Shift your perspective and embrace the clarity that comes with honest self-reflection. Growth begins with an honest view of yourself." },
+                { name: "Fightless Win", quote: "Achieve success without unnecessary conflict", rhyme: "Calm. Charm. Disarm.", content: "Victory doesn't always mean conflict. By staying calm, composed, and confident, success becomes attainable without unnecessary battles. Let others panic while you maintain focus and achieve your goals with grace." },
+                { name: "Growth Mindset", quote: "Turn challenges into stepping stones", rhyme: "Fail. Trail. Prevail.", content: "Getting your hands dirty is the first step to success. Challenges are opportunities to grow, and every failure becomes a lesson. With a growth mindset, you'll turn obstacles into stepping stones for greatness." },
+                { name: "Learn Earn Return", quote: "Plant seeds of wisdom and give back", rhyme: "Invest. Best. Rest.", content: "Plant seeds of wisdom and reap the rewards of good karma. Invest in yourself, grow your knowledge, and give back to others. True success is measured by the positive impact you leave behind." }
+            ],
+            management: [
+                { name: "Habit Contract", quote: "Transform routines with commitment", rhyme: "Plan. Span. Ban.", content: "Smooth out the rough edges of your daily routines. Transform unproductive habits into polished, productive behaviors through commitment and focus. Consistency is the key to turning small changes into big results." },
+                { name: "Do Hard Things First", quote: "Start strong to finish stronger", rhyme: "Start. Smart. Chart.", content: "Tackle the tough tasks first, just like using the strongest tool in a Swiss knife. Facing challenges head-on makes the rest of the day feel lighter. Start strong and finish stronger!" },
+                { name: "➕➖✖️➗", quote: "Find the perfect fit for every problem", rhyme: "Count. Mount. Amount.", content: "Find the perfect fit for every problem. Like a wrench tightening loose bolts, precision and the right strategies ensure success. Adjust, refine, and make everything fit perfectly." },
+                { name: "5W1H", quote: "Strengthen understanding with right questions", rhyme: "Ask. Task. Bask.", content: "Get a firm grip on success by asking the right questions. Like a clamp holding everything securely in place, Who, What, When, Where, Why, and How strengthen your understanding and keep your plans steady and on track." },
+                { name: "6 Persuasive Leadership", quote: "Inspire effectively with tailored approaches", rhyme: "Guide. Decide. Provide.", content: "Leadership isn't one-size-fits-all. With six approaches to persuasion, explore how to adapt and inspire effectively. Use the right tools for each situation to motivate your team and drive results." },
+                { name: "7 Drucker Principles", quote: "Lead with precision and purpose", rhyme: "Measure. Nurture. Treasure.", content: "Manage with precision and lead with purpose. The principles of Peter Drucker guide you to tighten your approach to management and unlock the full potential of your team." },
+                { name: "80/20", quote: "Focus on the vital 20% that drives 80% of results", rhyme: "Focus. Notice. Lotus.", content: "Focus on the vital 20% that drives 80% of results. Prioritize what matters most and find balance in a world of distractions. Alignment with key priorities leads to transformative progress." },
+                { name: "SWOT", quote: "Identify strengths, weaknesses, opportunities, threats", rhyme: "Scan. Plan. Span.", content: "Apply pressure where it matters most to make an impact. Identifying strengths, weaknesses, opportunities, and threats helps carve out a path to success with precision and confidence." },
+                { name: "Weekly Goal", quote: "Small steps lead to big wins", rhyme: "Plot. Shot. Got.", content: "Planning is the foundation of progress. Setting achievable weekly goals ensures consistency and alignment with long-term visions. Like measuring twice to cut once, small steps lead to big wins." },
+                { name: "Due Diligence Checklist", quote: "Prevent mistakes with solid preparation", rhyme: "Check. Deck. Protect.", content: "Preparation prevents mistakes. Double-check details and ensure you're hitting the mark with precision. A solid foundation leads to stronger results and fewer missteps along the way." },
+                { name: "SWIFT Conversation", quote: "Deliver the right message at the right time", rhyme: "Say. Play. Relay.", content: "Effective communication sharpens relationships. Delivering the right message at the right time ensures clarity and impact. One well-placed idea can inspire and energize your audience." },
+                { name: "4Q Leadership", quote: "Illuminate the path with clarity", rhyme: "Shine. Align. Define.", content: "Shine a light for others to follow. Leading with clarity and purpose ensures that your team moves forward with confidence. Illuminate the path without overwhelming or blinding yourself or others." },
+                { name: "OKR", quote: "Focused goals align efforts and prevent chaos", rhyme: "Aim. Claim. Fame.", content: "Clear objectives lead to impactful results. Setting focused goals aligns efforts and prevents chaos. Precision and purpose ensure that every step contributes to meaningful outcomes." }
+            ],
+            culture: [
+                { name: "Never Stop Creating", quote: "Let your imagination flow freely", rhyme: "Dream. Stream. Beam.", content: "Creativity has no limits. A sponge absorbs inspiration from everywhere, reminding you to keep creating and finding joy in the process. It's not about competition but about letting your imagination flow freely." },
+                { name: "Life Experience Map", quote: "Savor moments that shape who you are", rhyme: "Track. Stack. Crack.", content: "Every journey in life holds value. Chopsticks carefully pick up lessons from the past, helping you savor moments that shape who you are. Use these experiences to build a meaningful and enriched future." },
+                { name: "We Rhyme We Kool", quote: "Laughter is the secret ingredient to healing", rhyme: "Mix. Fix. Tricks.", content: "Laughter is the secret ingredient to healing. A cooking pot blends diverse flavors, just as humor and joy bring people together. Create connections that nourish the soul and brighten your day." },
+                { name: "Vocab of the Day", quote: "Words have power—choose them wisely", rhyme: "Word. Heard. Preferred.", content: "Expanding your vocabulary sharpens communication. A cheese grater refines ingredients, just as enriching your lexicon refines how you express yourself. Words have power—choose them wisely and creatively." },
+                { name: "Koolers Story", quote: "Celebrate and share unique experiences", rhyme: "Share. Care. Dare.", content: "Every voice matters, and every story deserves to be shared. An apron protects the storyteller, symbolizing the value of celebrating unique experiences. Together, these voices weave a rich and inspiring tapestry." },
+                { name: "Weekly Kool News", quote: "Build something extraordinary together", rhyme: "Post. Host. Boast.", content: "Collaboration fuels co-creation. A cutting board prepares ingredients for something extraordinary, just as sharing updates and ideas builds something greater, week by week." },
+                { name: "Book Club", quote: "Dive into books and unlock new perspectives", rhyme: "Read. Feed. Lead.", content: "Knowledge and growth are everywhere. A notebook and pen symbolize the value of capturing wisdom, diving into books, and fueling curiosity. Learning unlocks new perspectives and infinite possibilities." },
+                { name: "Advisory Board", quote: "Good advice is a recipe for success", rhyme: "Weigh. Say. Way.", content: "Guidance leads to wisdom. A kitchen scale ensures balance, much like the wisdom of mentors and advisors helps weigh options and make informed decisions. Good advice is a recipe for success." },
+                { name: "5 Kool Tenets", quote: "Measure life by your values", rhyme: "Value. Cue. True.", content: "Life is measured by your values. A set of measuring cups helps find the perfect mix, reminding you to prioritize what matters and create a purposeful, fulfilling life." },
+                { name: "Purpose Statement", quote: "Energize meaningful, impactful actions", rhyme: "Aim. Claim. Frame.", content: "Together, we can create a sustainable future. A water bottle sustains you on the journey, just as a clear purpose energizes and inspires meaningful, impactful actions." },
+                { name: "Wellness Boosters", quote: "Nourish body, mind, and soul", rhyme: "Rest. Best. Test.", content: "Protect your body, mind, and soul with small, consistent actions that nourish well-being. A set of cutlery represents habits that strengthen overall health and lead to lasting vitality." },
+                { name: "Kool Foundation", quote: "Build relationships with compassion", rhyme: "Build. Yield. Shield.", content: "Care is at the heart of every endeavor. A fry pan serves loved ones, symbolizing the importance of nurturing relationships and projects that matter most. Build a foundation of support and compassion." },
+                { name: "KoolBook", quote: "Capture knowledge and inspire future generations", rhyme: "Write. Light. Insight.", content: "Documenting knowledge creates a legacy. A recipe book preserves culinary secrets, much like capturing experiences and insights inspires and guides future generations. Share your story—it's a gift." }
+            ],
+            innovation: [
+                { name: "25 Bullets Writing", quote: "Organize thoughts and create clarity", rhyme: "Write. Sight. Bright.", content: "Aim before you write. A set of 25 colorful pencils organizes thoughts and ideas, creating something vibrant and impactful. Intentional writing leads to clarity and creativity." },
+                { name: "Innovation Day", quote: "Connections spark breakthroughs", rhyme: "Sun. Run. Fun.", content: "Innovation can happen anywhere with anyone. Paper clips hold ideas together, inspiring connections between minds and concepts to spark breakthroughs. Collaboration is the catalyst for new possibilities." },
+                { name: "4P Presentation", quote: "Deliver your pitch with precision and impact", rhyme: "Speak. Tweak. Peak.", content: "Deliver your pitch with precision and impact. A pin hits its target, just as a well-crafted presentation leaves a lasting impression. Clear, captivating communication drives success." },
+                { name: "5 Branding Discipline", quote: "Focus on identity and values to stand out", rhyme: "Stick. Pick. Kick.", content: "Highlight your brand's purpose. Highlighter pens emphasize key points, showing the importance of focusing on identity and values. Stand out by staying true to your vision." },
+                { name: "Lean Canvas", quote: "Sketch bold ideas and refine with agility", rhyme: "Plan. Scan. Expand.", content: "Design lean and adapt quickly. A paint canvas offers a space to sketch bold ideas, refine them, and bring them to life with agility and focus." },
+                { name: "Emotion by Design", quote: "Create a legacy, not just a memory", rhyme: "Feel. Seal. Appeal.", content: "Create a legacy, not just a memory. A stapler connects ideas seamlessly, reminding you to design with intention and evoke emotions that build deeper connections." },
+                { name: "Visual Thinking", quote: "Transform ideas into clear, memorable visuals", rhyme: "Picture. Structure. Capture.", content: "A picture speaks a thousand words. A camera captures moments, encouraging you to visualize thoughts and communicate them effectively. Transform complex ideas into clear, memorable visuals." },
+                { name: "4A Feedback", quote: "Grow through constructive feedback", rhyme: "Hear. Steer. Clear.", content: "Feedback is essential for growth. An eraser refines a sketch, symbolizing actionable, appreciative, and effective exchanges. Decide what to keep or discard, and grow through constructive feedback." },
+                { name: "Prompt Engineering", quote: "Merge mind and machine to unlock potential", rhyme: "Blend. Send. Trend.", content: "Let brilliance emerge from the fusion of mind and machine. An iPad blends technology and creativity, opening doors to innovative solutions and unlocking your full potential." },
+                { name: "Social Ecosystem Map", quote: "Build stronger, more connected communities", rhyme: "Link. Think. Sync.", content: "Connections are the foundation of a thriving future. A drawing compass maps relationships, helping to visualize networks and build a stronger, more connected community." },
+                { name: "Design Thinking", quote: "Understand needs, foster solutions", rhyme: "Care. Dare. Share.", content: "Empathy drives innovation. Post-it Notes capture ideas, showing how understanding people's needs fosters creative solutions. Start with care, and let creativity flourish." },
+                { name: "KoolLab", quote: "Explore and innovate with limitless possibilities", rhyme: "Explore. More. Core.", content: "Ideas are boundless. A computer mouse navigates endless possibilities, encouraging you to explore, experiment, and innovate in a space where creativity knows no limits." },
+                { name: "Disruptive Innovation Business", quote: "Bold ideas drive transformation", rhyme: "Create. Innovate. Elevate.", content: "Disruption can pave the way for progress. A blank sheet of A4 paper represents challenging the status quo and reimagining the way things are done. Bold ideas drive transformation." }
+            ]
+        };
+
+        // Reflection prompts for different themes
+        const reflectionPrompts = {
+            philosophy: [
+                "What's one thing in your life that deserves more focus right now?",
+                "How can you apply this wisdom to your current situation?",
+                "What small step can you take today to embrace this insight?"
+            ],
+            management: [
+                "How can this principle improve your productivity?",
+                "What's one area of your work that could benefit from this approach?",
+                "What action will you take to implement this strategy?"
+            ],
+            culture: [
+                "How can this idea strengthen your relationships?",
+                "What's one way you can share this wisdom with others?",
+                "How does this connect to your personal values?"
+            ],
+            innovation: [
+                "What creative solution could this inspire?",
+                "How can you apply this to solve a current challenge?",
+                "What new possibility does this open up for you?"
+            ]
+        };
+
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            populateDropdowns();
+            populateCardGallery();
+            
+            // Modal close functionality
+            document.querySelector('.close').addEventListener('click', closeModal);
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('cardModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+
+        // Navigation functions
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Populate dropdown menus
+        function populateDropdowns() {
+            populateDropdown('philosophyDropdown', cardData.philosophy);
+            populateDropdown('cultureDropdown', cardData.culture);
+            populateDropdown('managementDropdown', cardData.management);
+            populateDropdown('innovationDropdown', cardData.innovation);
+        }
+
+        function populateDropdown(dropdownId, cards) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.innerHTML = '';
+            
+            cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card-item';
+                cardElement.innerHTML = `
+                    <div class="card-name">${card.name}</div>
+                    <div class="card-quote">"${card.quote}"</div>
+                    <div class="card-rhyme">${card.rhyme}</div>
+                `;
+                cardElement.addEventListener('click', () => openCardModal(card));
+                dropdown.appendChild(cardElement);
+            });
+        }
+
+        // Populate card gallery
+        function populateCardGallery() {
+            const gallery = document.getElementById('cardGallery');
+            gallery.innerHTML = '';
+            
+            Object.keys(cardData).forEach(category => {
+                cardData[category].forEach(card => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = `gallery-card ${category}`;
+                    cardElement.innerHTML = `
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem; text-transform: capitalize;">${category}</div>
+                        <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; color: #333;">${card.name}</div>
+                        <div style="font-style: italic; color: #555; margin-bottom: 0.5rem;">"${card.quote}"</div>
+                        <div style="color: #667eea; font-weight: 600; font-size: 0.9rem;">${card.rhyme}</div>
+                    `;
+                    cardElement.addEventListener('click', () => openCardModal(card, category));
+                    gallery.appendChild(cardElement);
+                });
+            });
+        }
+
+        // Modal functions
+        function openCardModal(card, category) {
+            const modal = document.getElementById('cardModal');
+            const title = document.getElementById('modalCardTitle');
+            const quote = document.getElementById('modalCardQuote');
+            const theme = document.getElementById('modalCardTheme');
+            const rhyme = document.getElementById('modalCardRhyme');
+            const content = document.getElementById('modalCardContent');
+            
+            title.textContent = card.name;
+            quote.textContent = `"${card.quote}"`;
+            theme.textContent = category ? category.charAt(0).toUpperCase() + category.slice(1) : 'Philosophy';
+            rhyme.textContent = card.rhyme;
+            content.textContent = card.content;
+            
+            // Set theme color
+            const themeColors = {
+                philosophy: '#2c3e50',
+                management: '#f39c12',
+                culture: '#e74c3c',
+                innovation: '#27ae60'
+            };
+            theme.style.background = themeColors[category] || '#667eea';
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('cardModal');
+            modal.style.display = 'none';
+        }
+
+        // PAR Method functions
+        function fillQuestion(question) {
+            document.getElementById('userQuestion').value = question;
+            showSection('how');
+        }
+
+        function shuffleCard() {
+            const selectedCardDiv = document.getElementById('selectedCard');
+            const shuffleBtn = document.querySelector('.shuffle-btn');
+            const question = document.getElementById('userQuestion').value;
+            
+            // Animation and loading state
+            selectedCardDiv.classList.add('card-shuffle');
+            shuffleBtn.textContent = 'Shuffling...';
+            shuffleBtn.disabled = true;
+            
+            setTimeout(() => {
+                // Get all cards
+                const allCards = [
+                    ...cardData.philosophy.map(card => ({...card, category: 'philosophy'})),
+                    ...cardData.culture.map(card => ({...card, category: 'culture'})),
+                    ...cardData.management.map(card => ({...card, category: 'management'})),
+                    ...cardData.innovation.map(card => ({...card, category: 'innovation'}))
+                ];
+                
+                // Select random card
+                const randomCard = allCards[Math.floor(Math.random() * allCards.length)];
+                const prompts = reflectionPrompts[randomCard.category];
+                
+                selectedCardDiv.innerHTML = `
+                    <h4 style="color: #ff4757; margin-bottom: 1rem; font-size: 1.5rem;">${randomCard.name}</h4>
+                    <p style="font-style: italic; font-size: 1.2rem; margin-bottom: 1rem; color: #666;">"${randomCard.quote}"</p>
+                    <div style="margin-bottom: 1rem;">
+                        <span style="background: ${getThemeColor(randomCard.category)}; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; margin-right: 1rem;">${randomCard.category.charAt(0).toUpperCase() + randomCard.category.slice(1)}</span>
+                        <span style="color: #667eea; font-weight: 600;">${randomCard.rhyme}</span>
+                    </div>
+                    
+                    ${question ? `<div style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 15px; border-left: 4px solid ${getThemeColor(randomCard.category)};">
+                        <strong style="color: #333;">Your Question:</strong><br>
+                        <span style="color: #666; font-style: italic;">${question}</span>
+                    </div>` : ''}
+                    
+                    <div style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 15px;">
+                        <h5 style="margin-bottom: 1rem; color: #333;">Card Wisdom:</h5>
+                        <p style="color: #666; line-height: 1.6;">${randomCard.content}</p>
+                    </div>
+                    
+                    <div style="margin: 2rem 0;">
+                        <h5 style="margin-bottom: 1rem; color: #333;">Reflection Prompts:</h5>
+                        ${prompts.map(prompt => `<p style="margin-bottom: 0.75rem; padding: 0.5rem 0; border-left: 3px solid ${getThemeColor(randomCard.category)}; padding-left: 1rem; color: #666;">• ${prompt}</p>`).join('')}
+                    </div>
+                    
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <button onclick="shuffleCard()" style="background: #00b894; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 25px; margin-right: 1rem; cursor: pointer; font-weight: 600;">Shuffle Again</button>
+                        <button onclick="showSection('shop')" style="background: #ff4757; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">Get Full KoolBox</button>
+                    </div>
+                `;
+                
+                selectedCardDiv.style.display = 'block';
+                selectedCardDiv.classList.remove('card-shuffle');
+                shuffleBtn.textContent = 'Shuffle the Deck';
+                shuffleBtn.disabled = false;
+            }, 1000);
+        }
+
+        // Utility functions
+        function getThemeColor(category) {
+            const colors = {
+                philosophy: '#2c3e50',
+                management: '#f39c12',
+                culture: '#e74c3c',
+                innovation: '#27ae60'
+            };
+            return colors[category] || '#667eea';
+        }
+
+        function showLocation(location) {
+            const locations = {
+                home: "Perfect for quiet reflection and family bonding moments. Create a peaceful space for meaningful conversations.",
+                office: "Ideal for team meetings and creative brainstorming sessions. Transform your workplace into a hub of innovation.",
+                beach: "Relax and let nature inspire your next big idea. Sometimes the best insights come when you're most relaxed.",
+                classroom: "Engage students with interactive learning experiences. Make education fun and thought-provoking.",
+                workshop: "Perfect for group activities and collaborative learning. Build stronger teams through shared wisdom."
+            };
+            
+            alert(`🎲 KoolBox at ${location.charAt(0).toUpperCase() + location.slice(1)}: ${locations[location]}`);
+        }
+
+        function addToCart() {
+            alert('🛒 Adding KoolBox to cart! Redirecting to secure checkout... (HK$10 donation to Kool Foundation included)');
+        }
+
+        function donateDirectly() {
+            alert('💝 Thank you for your interest in supporting Kool Foundation! Redirecting to donation page...');
+        }
+
+        function volunteer() {
+            alert('🤝 Thank you for your interest in volunteering! We\'ll connect you with local opportunities to help elderly and youth in Hong Kong.');
+        }
+
+        // Prevent dropdown close when clicking inside
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+</body>
+</html>
