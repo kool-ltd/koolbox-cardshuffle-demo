@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoolBox - Unbox Wisdom. Play with Ideas. Transform Your World.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #764ba2;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .suit-symbol {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .spades { color: #000; }
+        .hearts { color: #e74c3c; }
+        .diamonds { color: #e74c3c; }
+        .clubs { color: #000; }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .card-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .card-item:hover {
+            background: #f8f9fa;
+            border-left-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .card-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-quote {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Special Navigation Items */
+        .special-nav {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .special-nav:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        .cart-icon, .question-icon, .donation-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .purpose-statement {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 3rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .primary-cta {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .secondary-cta {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Toolkits Section */
+        .toolkits-section {
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            border-radius: 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .section-description {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #666;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .toolkits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .toolkit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .toolkit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .toolkit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .toolkit-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .toolkit-subtitle {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .toolkit-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .dropdown {
+                min-width: 250px;
+            }
+
+            .toolkits-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+        }
+
+        /* Card Content Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal-card-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .modal-card-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .modal-card-content {
+            line-height: 1.8;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo">KoolBox</a>
+                <ul class="nav-menu" id="navMenu">
+                    <!-- Spades - Philosophy Tools -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol spades">♠</span>
+                            Philosophy
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-grid" id="spadesDropdown">
+                                <!-- Cards will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Hearts - Culture Tools -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol hearts">♥</span>
+                            Culture
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-grid" id="heartsDropdown">
+                                <!-- Cards will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Diamonds - Management Tools -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol diamonds">♦</span>
+                            Management
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-grid" id="diamondsDropdown">
+                                <!-- Cards will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Clubs - Innovation Tools -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="suit-symbol clubs">♣</span>
+                            Innovation
+                        </a>
+                        <div class="dropdown">
+                            <div class="dropdown-grid" id="clubsDropdown">
+                                <!-- Cards will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Question Mark -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link special-nav">
+                            <span class="question-icon">❓</span>
+                            PAR Method
+                        </a>
+                    </li>
+
+                    <!-- Shopping Cart -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link special-nav">
+                            <span class="cart-icon">🛒</span>
+                            Shop
+                        </a>
+                    </li>
+
+                    <!-- Donations -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link special-nav">
+                            <span class="donation-icon">💝</span>
+                            Donate
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1 class="hero-title">KoolBox</h1>
+                <h2 class="hero-subtitle">Unbox Wisdom. Play with Ideas. Transform Your World.</h2>
+                <p class="purpose-statement">
+                    "Inspiring people on their path to achieving creativity. Never stop creating!"
+                </p>
+                <div class="cta-buttons">
+                    <a href="#" class="cta-button primary-cta">Explore the Cards</a>
+                    <a href="#" class="cta-button secondary-cta">Buy KoolBox Now!</a>
+                </div>
+            </section>
+
+            <!-- Toolkits Section -->
+            <section class="toolkits-section">
+                <h2 class="section-title">Discover the Toolkits</h2>
+                <p class="section-description">
+                    Four Ways to Unlock Wisdom. The KoolBox is more than a card game—it's a toolkit for life. 
+                    Each card belongs to one of four categories, each inspired by a metaphor that makes exploring wisdom fun and engaging.
+                </p>
+                <div class="toolkits-grid">
+                    <div class="toolkit-card">
+                        <div class="toolkit-icon spades">♠</div>
+                        <h3 class="toolkit-title">Gardening Tools</h3>
+                        <p class="toolkit-subtitle">Philosophy</p>
+                        <p class="toolkit-description">
+                            For growth, reflection, and nurturing life wisdom. Plant seeds of wisdom and watch your understanding bloom.
+                        </p>
+                    </div>
+                    <div class="toolkit-card">
+                        <div class="toolkit-icon hearts">♥</div>
+                        <h3 class="toolkit-title">Cooking Tools</h3>
+                        <p class="toolkit-subtitle">Culture</p>
+                        <p class="toolkit-description">
+                            For fostering creativity, connection, and shared values. Mix ingredients of wisdom to create meaningful relationships.
+                        </p>
+                    </div>
+                    <div class="toolkit-card">
+                        <div class="toolkit-icon diamonds">♦</div>
+                        <h3 class="toolkit-title">Maintaining Tools</h3>
+                        <p class="toolkit-subtitle">Management</p>
+                        <p class="toolkit-description">
+                            For organizing, planning, and sustaining progress. Build solid foundations and maintain steady growth.
+                        </p>
+                    </div>
+                    <div class="toolkit-card">
+                        <div class="toolkit-icon clubs">♣</div>
+                        <h3 class="toolkit-title">Designing Tools</h3>
+                        <p class="toolkit-subtitle">Innovation</p>
+                        <p class="toolkit-description">
+                            For problem-solving, creative thinking, and building solutions. Sketch new possibilities and design your future.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Card Content Modal -->
+    <div id="cardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-card-title" id="modalCardTitle"></h2>
+            <p class="modal-card-quote" id="modalCardQuote"></p>
+            <div class="modal-card-content" id="modalCardContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Card data structure
+        const cardData = {
+            philosophy: [
+                { name: "First Step", quote: "Every journey begins with a single step", content: "Lace up your boots and take that first leap toward growth. Whether it's a new project or personal goal, progress starts now. Embrace the adventure and plant the seeds of success!" },
+                { name: "Be Water", quote: "Flexibility is the ultimate strength", content: "Inspired by Bruce Lee's wisdom, the idea is to adapt like water—shaping yourself to challenges. Flow through obstacles, nourish your creativity, and let resilience carry you forward." },
+                { name: "NOW", quote: "The power lies in the present moment", content: "The past is gone, and the future is unknown. Embrace the present moment and measure where you are now. Your power lies in the here and now—seize the day!" },
+                { name: "Five Constant Virtues", quote: "Nurture wisdom, integrity, and compassion", content: "Align your life with wisdom, integrity, and compassion. Much like tending to a garden, personal growth requires care and nurturing. Cultivate these virtues daily and watch your life bloom with purpose and harmony." },
+                { name: "Ying Yang", quote: "Embrace opposites to find harmony", content: "Balance lies in embracing opposites. The ebb and flow, the light and dark—all are essential parts of life's journey. Harness the power of balance to move forward and thrive in every aspect of your life." },
+                { name: "Sharpen the Saw", quote: "Refine your skills and mindset", content: "A dull tool leads nowhere. Invest in sharpening your skills and strengthening your mind. With consistent effort, cut through challenges and achieve more than ever before. Stay sharp and ready!" },
+                { name: "PEACE Method", quote: "Build relationships with patience and determination", content: "Climb life's ladder one step at a time. Avoid shortcuts or stepping on others along the way. Build peace in your relationships and goals by balancing patience with determination." },
+                { name: "Enneagram", quote: "Rake through your mind to uncover truths", content: "Dig deep into your personality and motivations. Rake through the leaves of your mind to uncover hidden truths. Self-awareness is the key to unlocking your full potential and living authentically." },
+                { name: "Ten Factors of Life", quote: "Unlock life's mysteries with clarity and purpose", content: "Unlock life's mysteries by gaining wisdom. Gain clarity and direction as you uncover what truly matters. A life guided by understanding and purpose is one of fulfillment and growth." },
+                { name: "21-Day Glasses", quote: "See clearly and embrace honest self-reflection", content: "Seeing clearly sometimes means facing the truth, even when it's uncomfortable. Shift your perspective and embrace the clarity that comes with honest self-reflection. Growth begins with an honest view of yourself." },
+                { name: "Fightless Win", quote: "Achieve success without unnecessary conflict", content: "Victory doesn't always mean conflict. By staying calm, composed, and confident, success becomes attainable without unnecessary battles. Let others panic while you maintain focus and achieve your goals with grace." },
+                { name: "Growth Mindset", quote: "Turn challenges into stepping stones for greatness", content: "Getting your hands dirty is the first step to success. Challenges are opportunities to grow, and every failure becomes a lesson. With a growth mindset, you'll turn obstacles into stepping stones for greatness." },
+                { name: "Learn Earn Return", quote: "Plant seeds of wisdom and give back to others", content: "Plant seeds of wisdom and reap the rewards of good karma. Invest in yourself, grow your knowledge, and give back to others. True success is measured by the positive impact you leave behind." }
+            ],
+            management: [
+                { name: "Habit Contract", quote: "Transform routines with commitment and focus", content: "Smooth out the rough edges of your daily routines. Transform unproductive habits into polished, productive behaviors through commitment and focus. Consistency is the key to turning small changes into big results." },
+                { name: "Do the Hard Things First", quote: "Start strong to finish stronger", content: "Tackle the tough tasks first, just like using the strongest tool in a Swiss knife. Facing challenges head-on makes the rest of the day feel lighter. Start strong and finish stronger!" },
+                { name: "➕➖✖️➗", quote: "Find the perfect fit for every problem", content: "Find the perfect fit for every problem. Like a wrench tightening loose bolts, precision and the right strategies ensure success. Adjust, refine, and make everything fit perfectly." },
+                { name: "5W1H", quote: "Strengthen understanding with the right questions", content: "Get a firm grip on success by asking the right questions. Like a clamp holding everything securely in place, Who, What, When, Where, Why, and How strengthen your understanding and keep your plans steady and on track." },
+                { name: "6 Persuasive Leadership", quote: "Inspire effectively with tailored approaches", content: "Leadership isn't one-size-fits-all. With six approaches to persuasion, explore how to adapt and inspire effectively. Use the right tools for each situation to motivate your team and drive results." },
+                { name: "7 Drucker Principles", quote: "Lead with precision and purpose", content: "Manage with precision and lead with purpose. The principles of Peter Drucker guide you to tighten your approach to management and unlock the full potential of your team." },
+                { name: "80/20", quote: "Focus on the vital 20% that drives 80% of results", content: "Focus on the vital 20% that drives 80% of results. Prioritize what matters most and find balance in a world of distractions. Alignment with key priorities leads to transformative progress." },
+                { name: "SWOT", quote: "Identify strengths, weaknesses, opportunities, and threats", content: "Apply pressure where it matters most to make an impact. Identifying strengths, weaknesses, opportunities, and threats helps carve out a path to success with precision and confidence." },
+                { name: "Weekly Goal", quote: "Small steps lead to big wins", content: "Planning is the foundation of progress. Setting achievable weekly goals ensures consistency and alignment with long-term visions. Like measuring twice to cut once, small steps lead to big wins." },
+                { name: "Due Diligence Checklist", quote: "Prevent mistakes with solid preparation", content: "Preparation prevents mistakes. Double-check details and ensure you're hitting the mark with precision. A solid foundation leads to stronger results and fewer missteps along the way." },
+                { name: "SWIFT Conversation", quote: "Deliver the right message at the right time", content: "Effective communication sharpens relationships. Delivering the right message at the right time ensures clarity and impact. One well-placed idea can inspire and energize your audience." },
+                { name: "4Q Leadership", quote: "Illuminate the path with clarity and purpose", content: "Shine a light for others to follow. Leading with clarity and purpose ensures that your team moves forward with confidence. Illuminate the path without overwhelming or blinding yourself or others." },
+                { name: "OKR", quote: "Focused goals align efforts and prevent chaos", content: "Clear objectives lead to impactful results. Setting focused goals aligns efforts and prevents chaos. Precision and purpose ensure that every step contributes to meaningful outcomes." }
+            ],
+            culture: [
+                { name: "Never Stop Creating", quote: "Let your imagination flow freely", content: "Creativity has no limits. A sponge absorbs inspiration from everywhere, reminding you to keep creating and finding joy in the process. It's not about competition but about letting your imagination flow freely." },
+                { name: "Life Experience Map", quote: "Savor moments that shape who you are", content: "Every journey in life holds value. Chopsticks carefully pick up lessons from the past, helping you savor moments that shape who you are. Use these experiences to build a meaningful and enriched future." },
+                { name: "We Rhyme We Kool", quote: "Laughter is the secret ingredient to healing", content: "Laughter is the secret ingredient to healing. A cooking pot blends diverse flavors, just as humor and joy bring people together. Create connections that nourish the soul and brighten your day." },
+                { name: "Vocab of the Day", quote: "Words have power—choose them wisely", content: "Expanding your vocabulary sharpens communication. A cheese grater refines ingredients, just as enriching your lexicon refines how you express yourself. Words have power—choose them wisely and creatively." },
+                { name: "Koolers Story", quote: "Celebrate and share unique experiences", content: "Every voice matters, and every story deserves to be shared. An apron protects the storyteller, symbolizing the value of celebrating unique experiences. Together, these voices weave a rich and inspiring tapestry." },
+                { name: "Weekly Kool News", quote: "Build something extraordinary together", content: "Collaboration fuels co-creation. A cutting board prepares ingredients for something extraordinary, just as sharing updates and ideas builds something greater, week by week." },
+                { name: "Book Club", quote: "Dive into books and unlock new perspectives", content: "Knowledge and growth are everywhere. A notebook and pen symbolize the value of capturing wisdom, diving into books, and fueling curiosity. Learning unlocks new perspectives and infinite possibilities." },
+                { name: "Advisory Board", quote: "Good advice is a recipe for success", content: "Guidance leads to wisdom. A kitchen scale ensures balance, much like the wisdom of mentors and advisors helps weigh options and make informed decisions. Good advice is a recipe for success." },
+                { name: "5 Kool Tenets", quote: "Measure life by your values and prioritize what matters", content: "Life is measured by your values. A set of measuring cups helps find the perfect mix, reminding you to prioritize what matters and create a purposeful, fulfilling life." },
+                { name: "Purpose Statement", quote: "Energize meaningful, impactful actions", content: "Together, we can create a sustainable future. A water bottle sustains you on the journey, just as a clear purpose energizes and inspires meaningful, impactful actions." },
+                { name: "Wellness Boosters", quote: "Nourish body, mind, and soul with small habits", content: "Protect your body, mind, and soul with small, consistent actions that nourish well-being. A set of cutlery represents habits that strengthen overall health and lead to lasting vitality." },
+                { name: "Kool Foundation", quote: "Build relationships and projects with compassion", content: "Care is at the heart of every endeavor. A fry pan serves loved ones, symbolizing the importance of nurturing relationships and projects that matter most. Build a foundation of support and compassion." },
+                { name: "KoolBook", quote: "Capture knowledge and inspire future generations", content: "Documenting knowledge creates a legacy. A recipe book preserves culinary secrets, much like capturing experiences and insights inspires and guides future generations. Share your story—it's a gift." }
+            ],
+            innovation: [
+                { name: "25 Bullets Writing", quote: "Organize thoughts and create clarity", content: "Aim before you write. A set of 25 colorful pencils organizes thoughts and ideas, creating something vibrant and impactful. Intentional writing leads to clarity and creativity." },
+                { name: "Innovation Day", quote: "Connections spark breakthroughs", content: "Innovation can happen anywhere with anyone. Paper clips hold ideas together, inspiring connections between minds and concepts to spark breakthroughs. Collaboration is the catalyst for new possibilities." },
+                { name: "4P Presentation", quote: "Deliver your pitch with precision and impact", content: "Deliver your pitch with precision and impact. A pin hits its target, just as a well-crafted presentation leaves a lasting impression. Clear, captivating communication drives success." },
+                { name: "5 Branding Discipline", quote: "Focus on identity and values to stand out", content: "Highlight your brand's purpose. Highlighter pens emphasize key points, showing the importance of focusing on identity and values. Stand out by staying true to your vision." },
+                { name: "Lean Canvas", quote: "Sketch bold ideas and refine them with agility", content: "Design lean and adapt quickly. A paint canvas offers a space to sketch bold ideas, refine them, and bring them to life with agility and focus." },
+                { name: "Emotion by Design", quote: "Create a legacy, not just a memory", content: "Create a legacy, not just a memory. A stapler connects ideas seamlessly, reminding you to design with intention and evoke emotions that build deeper connections." },
+                { name: "Visual Thinking", quote: "Transform ideas into clear, memorable visuals", content: "A picture speaks a thousand words. A camera captures moments, encouraging you to visualize thoughts and communicate them effectively. Transform complex ideas into clear, memorable visuals." },
+                { name: "4A Feedback", quote: "Grow through constructive feedback", content: "Feedback is essential for growth. An eraser refines a sketch, symbolizing actionable, appreciative, and effective exchanges. Decide what to keep or discard, and grow through constructive feedback." },
+                { name: "Prompt Engineering", quote: "Merge mind and machine to unlock potential", content: "Let brilliance emerge from the fusion of mind and machine. An iPad blends technology and creativity, opening doors to innovative solutions and unlocking your full potential." },
+                { name: "Social Ecosystem Map", quote: "Build stronger, more connected communities", content: "Connections are the foundation of a thriving future. A drawing compass maps relationships, helping to visualize networks and build a stronger, more connected community." },
+                { name: "Design Thinking", quote: "Understand needs, foster solutions", content: "Empathy drives innovation. Post-it Notes capture ideas, showing how understanding people's needs fosters creative solutions. Start with care, and let creativity flourish." },
+                { name: "KoolLab", quote: "Explore and innovate with limitless possibilities", content: "Ideas are boundless. A computer mouse navigates endless possibilities, encouraging you to explore, experiment, and innovate in a space where creativity knows no limits." },
+                { name: "Disruptive Innovation Business", quote: "Bold ideas drive transformation", content: "Disruption can pave the way for progress. A blank sheet of A4 paper represents challenging the status quo and reimagining the way things are done. Bold ideas drive transformation." }
+            ]
+        };
+
+        // Populate dropdown menus
+        function populateDropdown(dropdownId, cards) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.innerHTML = '';
+            
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card-item';
+                cardElement.innerHTML = `
+                    <div class="card-name">${card.name}</div>
+                    <div class="card-quote">"${card.quote}"</div>
+                `;
+                cardElement.addEventListener('click', () => openCardModal(card));
+                dropdown.appendChild(cardElement);
+            });
+        }
+
+        // Initialize dropdowns
+        function initializeDropdowns() {
+            populateDropdown('spadesDropdown', cardData.philosophy);
+            populateDropdown('heartsDropdown', cardData.culture);
+            populateDropdown('diamondsDropdown', cardData.management);
+            populateDropdown('clubsDropdown', cardData.innovation);
+        }
+
+        // Modal functions
+        function openCardModal(card) {
+            const modal = document.getElementById('cardModal');
+            const title = document.getElementById('modalCardTitle');
+            const quote = document.getElementById('modalCardQuote');
+            const content = document.getElementById('modalCardContent');
+            
+            title.textContent = card.name;
+            quote.textContent = `"${card.quote}"`;
+            content.textContent = card.content;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeCardModal() {
+            const modal = document.getElementById('cardModal');
+            modal.style.display = 'none';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDropdowns();
+            
+            // Close modal when clicking the X
+            document.querySelector('.close').addEventListener('click', closeCardModal);
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('cardModal');
+                if (event.target === modal) {
+                    closeCardModal();
+                }
+            });
+
+            // Special navigation handlers
+            document.querySelector('.nav-link[href="#"]:has(.question-icon)').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('PAR Method: Pick a card, Ask meaningful questions, Rethink your approach!');
+            });
+
+            document.querySelector('.nav-link[href="#"]:has(.cart-icon)').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Shopping Cart: Purchase your KoolBox set today!');
+            });
+
+            document.querySelector('.nav-link[href="#"]:has(.donation-icon)').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Kool Foundation: Support Hong Kong elderly and youth programs!');
+            });
+        });
+
+        // Prevent navigation menu from closing when clicking inside dropdown
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+</body>
+</html>
