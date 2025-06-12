@@ -387,19 +387,15 @@ const cardData = {
             { name: "First Step", quote: "Every journey begins with a single step", rhyme: "Leap. Keep. Reap.", content: "Lace up your boots and take that first leap toward growth. Whether it's a new project or personal goal, progress starts now. Embrace the adventure and plant the seeds of success!" },
             { name: "Be Water", quote: "Flexibility is the ultimate strength", rhyme: "Flow. Grow. Glow.", content: "Inspired by Bruce Lee's wisdom, the idea is to adapt like water--shaping yourself to challenges. Flow through obstacles, nourish your creativity, and let resilience carry you forward." },
             { name: "NOW", quote: "The power lies in the present moment", rhyme: "Here. Clear. Steer.", content: "The past is gone, and the future is unknown. Embrace the present moment and measure where you are now. Your power lies in the here and now--seize the day!" }
-            // Add more cards as needed
         ],
         management: [
             { name: "Habit Contract", quote: "Transform routines with commitment", rhyme: "Plan. Span. Ban.", content: "Smooth out the rough edges of your daily routines. Transform unproductive habits into polished, productive behaviors through commitment and focus. Consistency is the key to turning small changes into big results." }
-            // Add more cards as needed
         ],
         culture: [
             { name: "Never Stop Creating", quote: "Let your imagination flow freely", rhyme: "Dream. Stream. Beam.", content: "Creativity has no limits. A sponge absorbs inspiration from everywhere, reminding you to keep creating and finding joy in the process. It's not about competition but about letting your imagination flow freely." }
-            // Add more cards as needed
         ],
         innovation: [
             { name: "25 Bullets Writing", quote: "Organize thoughts and create clarity", rhyme: "Write. Sight. Bright.", content: "Aim before you write. A set of 25 colorful pencils organizes thoughts and ideas, creating something vibrant and impactful. Intentional writing leads to clarity and creativity." }
-            // Add more cards as needed
         ]
     },
     zh: {
@@ -471,21 +467,53 @@ const reflectionPrompts = {
 // Current language
 let currentLang = 'en';
 
-// Language detection (checks URL parameter or defaults to English)
+// Enhanced language detection
 function detectLanguage() {
+    const fullUrl = window.location.href.toLowerCase();
+    const pathname = window.location.pathname.toLowerCase();
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
+    
+    console.log('Detecting language...');
+    console.log('Full URL:', fullUrl);
+    console.log('Pathname:', pathname);
+    console.log('URL Lang param:', urlLang);
+    
+    // Check URL parameter first
     if (urlLang === 'zh' || urlLang === 'zh-hk') {
         currentLang = 'zh';
-    } else if (window.location.pathname.includes('/zh') || window.location.pathname.includes('/chinese')) {
-        currentLang = 'zh';
+        console.log('Language set to Chinese via URL parameter');
     }
+    // Check if URL contains zh/ patterns
+    else if (fullUrl.includes('/zh/') || 
+             fullUrl.includes('zh/') || 
+             pathname.includes('/zh/') || 
+             pathname.includes('/zh') ||
+             pathname.startsWith('zh/') ||
+             pathname.startsWith('/zh/')) {
+        currentLang = 'zh';
+        console.log('Language set to Chinese via URL path detection');
+    }
+    // Check for other Chinese indicators
+    else if (fullUrl.includes('chinese') || 
+             fullUrl.includes('hk') || 
+             pathname.includes('chinese')) {
+        currentLang = 'zh';
+        console.log('Language set to Chinese via keyword detection');
+    }
+    else {
+        currentLang = 'en';
+        console.log('Language set to English (default)');
+    }
+    
+    console.log('Final language:', currentLang);
     updateContent();
 }
 
 // Toggle language
 function toggleLanguage() {
     currentLang = currentLang === 'en' ? 'zh' : 'en';
+    console.log('Language toggled to:', currentLang);
     updateContent();
 }
 
@@ -513,6 +541,8 @@ function updateContent() {
     
     // Update questions grid
     updateQuestionsGrid();
+    
+    console.log('Content updated for language:', currentLang);
 }
 
 // Update questions grid
