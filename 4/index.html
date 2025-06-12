@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoolBox - PAR Step</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #58646D;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .par-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: #cbd5e0;
+        }
+
+        .par-method {
+            background: rgb(208, 1, 37);
+            color: white;
+            padding: 4rem;
+            border-radius: 25px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .par-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .par-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+            text-align: left;
+        }
+
+        .par-step {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .par-step:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .par-step h4 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .par-step p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #f7fafc;
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 700px;
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+            background: rgba(255,255,255,0.95);
+            color: #2d3748;
+        }
+
+        .question-input::placeholder {
+            color: #718096;
+        }
+
+        .shuffle-btn {
+            background: rgb(88, 100, 109);
+            color: white;
+            padding: 1.5rem 3.5rem;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .shuffle-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            background: rgb(60 67 73);
+        }
+
+        .shuffle-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .selected-card {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            color: white;
+            padding: 3rem;
+            border-radius: 25px;
+            margin: 3rem auto;
+            max-width: 800px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+
+        .questions-section {
+            margin: 4rem 0;
+        }
+
+        .questions-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #f7fafc;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #c53030, #e53e3e);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        @keyframes cardShuffle {
+            0% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(0.8); }
+            100% { transform: rotateY(0deg) scale(1); }
+        }
+
+        .card-shuffle {
+            animation: cardShuffle 1.2s ease-in-out;
+        }
+
+        a.action-btn {
+            text-decoration: none;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .par-steps {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .par-title {
+                font-size: 1.8rem;
+            }
+            
+            .questions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .par-method {
+                padding: 2rem;
+            }
+        }
+
+        .action-btn {
+            background: rgb(208, 1, 37);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .secondary-btn {
+            background: linear-gradient(135deg, #38a169, #48bb78);
+        }
+
+        .secondary-btn:hover {
+            background: linear-gradient(135deg, #2f855a, #38a169);
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <button class="language-toggle" onclick="toggleLanguage()">中文</button>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <section class="par-section">
+                <h1 class="section-title" id="mainTitle">The PAR Step</h1>
+                <p class="section-subtitle" id="mainSubtitle">Pick. Ask. Rethink. Transform your thinking with wisdom.</p>
+                
+                <div class="par-method">
+                    <h2 class="par-title" id="tryTitle">Try the PAR Step</h2>
+                    
+                    <div class="par-steps">
+                        <div class="par-step">
+                            <h4 id="step1Title">1. Pick</h4>
+                            <p id="step1Text">Choose a card that resonates with your current challenge or question. Trust your intuition--the right card will speak to you.</p>
+                        </div>
+                        <div class="par-step">
+                            <h4 id="step2Title">2. Ask</h4>
+                            <p id="step2Text">Reflect on the card's wisdom and ask how it applies to your situation. What insights can you gain from this perspective?</p>
+                        </div>
+                        <div class="par-step">
+                            <h4 id="step3Title">3. Rethink</h4>
+                            <p id="step3Text">Use the insights to shift your perspective, solve problems, or inspire action. Let the wisdom guide your next steps.</p>
+                        </div>
+                    </div>
+                    
+                    <input type="text" class="question-input" id="userQuestion" placeholder="What's one way I can improve my leadership skills?">
+                    <br>
+                    <button class="shuffle-btn" onclick="shuffleCard()" id="shuffleBtn">🎲 Shuffle the Deck</button>
+                    
+                    <div id="selectedCard" class="selected-card">
+                        <!-- Selected card will appear here -->
+                    </div>
+                </div>
+
+                <!-- Top 10 Questions -->
+                <div class="questions-section" id="questionsSection">
+                    <h3 class="questions-title" id="questionsTitle">Top 10 Questions for PAR Step</h3>
+                    <p style="text-align: center; margin-bottom: 2rem; color: #cbd5e0; font-size: 1.1rem;" id="questionsSubtitle">Click any question to use it in your PAR session</p>
+                    <div class="questions-grid" id="questionsGrid">
+                        <!-- Questions will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+// Language content
+const translations = {
+    en: {
+        mainTitle: "The PAR Step",
+        mainSubtitle: "Pick. Ask. Rethink. Transform your thinking with wisdom.",
+        tryTitle: "Try the PAR Step",
+        step1Title: "1. Pick",
+        step1Text: "Choose a card that resonates with your current challenge or question. Trust your intuition--the right card will speak to you.",
+        step2Title: "2. Ask", 
+        step2Text: "Reflect on the card's wisdom and ask how it applies to your situation. What insights can you gain from this perspective?",
+        step3Title: "3. Rethink",
+        step3Text: "Use the insights to shift your perspective, solve problems, or inspire action. Let the wisdom guide your next steps.",
+        placeholder: "What's one way I can improve my leadership skills?",
+        shuffleBtn: "🎲 Shuffle the Deck",
+        shuffling: "🎲 Shuffling...",
+        questionsTitle: "Top 10 Questions for PAR Step",
+        questionsSubtitle: "Click any question to use it in your PAR session",
+        askAnotherBtn: "❓ Ask Another Question",
+        yourQuestion: "🎯 Your Question:",
+        cardWisdom: "💡 Card Wisdom:",
+        insightBooster: "🤔 Insight Booster:",
+        sampleQuestions: [
+            { icon: "📚", title: "Academic Excellence", text: "How can I improve my grades this semester?" },
+            { icon: "🤝", title: "Social Connection", text: "What's the best way to make new friends?" },
+            { icon: "💼", title: "Business Growth", text: "How can we increase profits for our company this year?" },
+            { icon: "⏰", title: "Time Management", text: "What steps can I take to improve my time management skills?" },
+            { icon: "👑", title: "Leadership", text: "How can I become a better leader in my team or community?" },
+            { icon: "💪", title: "Health & Wellness", text: "What's one small habit I can change to improve my health?" },
+            { icon: "💬", title: "Communication", text: "How can I communicate more effectively with my coworkers?" },
+            { icon: "💡", title: "Creative Problem-Solving", text: "What's a creative way to solve my current work challenge?" },
+            { icon: "🔥", title: "Motivation", text: "How can I stay motivated when I encounter setbacks?" },
+            { icon: "🎯", title: "Personal Development", text: "What's one area of my life I should focus on improving next?" }
+        ]
+    },
+    zh: {
+        mainTitle: "PAR 步驟",
+        mainSubtitle: "揀選。探問。重思。用智慧轉化你的思維。",
+        tryTitle: "試試 PAR 步驟",
+        step1Title: "1. 揀選",
+        step1Text: "選擇一張與你當前挑戰或問題產生共鳴的卡片。相信你的直覺——合適的卡片會與你對話。",
+        step2Title: "2. 探問",
+        step2Text: "反思卡片的智慧，問問它如何應用於你的情況。你能從這個角度獲得什麼洞察？",
+        step3Title: "3. 重思",
+        step3Text: "運用這些洞察來轉換你的視角、解決問題或激發行動。讓智慧引導你的下一步。",
+        placeholder: "我如何提升領導技巧？",
+        shuffleBtn: "🎲 洗牌",
+        shuffling: "🎲 洗牌中...",
+        questionsTitle: "PAR 步驟十大問題",
+        questionsSubtitle: "點擊任何問題在你的 PAR 環節中使用",
+        askAnotherBtn: "❓ 問另一個問題",
+        yourQuestion: "🎯 你的問題：",
+        cardWisdom: "💡 卡片智慧：",
+        insightBooster: "🤔 洞察助推器：",
+        sampleQuestions: [
+            { icon: "📚", title: "學業卓越", text: "我如何在這學期提升成績？" },
+            { icon: "🤝", title: "社交連結", text: "結交新朋友的最佳方法是什麼？" },
+            { icon: "💼", title: "業務增長", text: "我們今年如何增加公司利潤？" },
+            { icon: "⏰", title: "時間管理", text: "我可以採取什麼步驟來改善時間管理技巧？" },
+            { icon: "👑", title: "領導力", text: "我如何在團隊或社區中成為更好的領導者？" },
+            { icon: "💪", title: "健康與保健", text: "我可以改變什麼小習慣來改善健康？" },
+            { icon: "💬", title: "溝通", text: "我如何與同事更有效地溝通？" },
+            { icon: "💡", title: "創意解難", text: "解決當前工作挑戰的創意方法是什麼？" },
+            { icon: "🔥", title: "動機", text: "遇到挫折時我如何保持動力？" },
+            { icon: "🎯", title: "個人發展", text: "我生活中應該專注改善的下一個領域是什麼？" }
+        ]
+    }
+};
+
+// Card data in both languages
+const cardData = {
+    en: {
+        philosophy: [
+            { name: "First Step", quote: "Every journey begins with a single step", rhyme: "Leap. Keep. Reap.", content: "Lace up your boots and take that first leap toward growth. Whether it's a new project or personal goal, progress starts now. Embrace the adventure and plant the seeds of success!" },
+            { name: "Be Water", quote: "Flexibility is the ultimate strength", rhyme: "Flow. Grow. Glow.", content: "Inspired by Bruce Lee's wisdom, the idea is to adapt like water--shaping yourself to challenges. Flow through obstacles, nourish your creativity, and let resilience carry you forward." },
+            { name: "NOW", quote: "The power lies in the present moment", rhyme: "Here. Clear. Steer.", content: "The past is gone, and the future is unknown. Embrace the present moment and measure where you are now. Your power lies in the here and now--seize the day!" }
+            // Add more cards as needed
+        ],
+        management: [
+            { name: "Habit Contract", quote: "Transform routines with commitment", rhyme: "Plan. Span. Ban.", content: "Smooth out the rough edges of your daily routines. Transform unproductive habits into polished, productive behaviors through commitment and focus. Consistency is the key to turning small changes into big results." }
+            // Add more cards as needed
+        ],
+        culture: [
+            { name: "Never Stop Creating", quote: "Let your imagination flow freely", rhyme: "Dream. Stream. Beam.", content: "Creativity has no limits. A sponge absorbs inspiration from everywhere, reminding you to keep creating and finding joy in the process. It's not about competition but about letting your imagination flow freely." }
+            // Add more cards as needed
+        ],
+        innovation: [
+            { name: "25 Bullets Writing", quote: "Organize thoughts and create clarity", rhyme: "Write. Sight. Bright.", content: "Aim before you write. A set of 25 colorful pencils organizes thoughts and ideas, creating something vibrant and impactful. Intentional writing leads to clarity and creativity." }
+            // Add more cards as needed
+        ]
+    },
+    zh: {
+        philosophy: [
+            { name: "第一步", quote: "千里之行，始於足下", rhyme: "躍。守。收。", content: "綁好鞋帶，朝成長邁出第一步。無論是新項目還是個人目標，進步從現在開始。擁抱冒險，播下成功的種子！" },
+            { name: "如水", quote: "靈活性是終極力量", rhyme: "流。長。光。", content: "受李小龍智慧啟發，要像水一樣適應——讓自己適應挑戰。流過障礙，滋養創造力，讓韌性帶你向前。" },
+            { name: "當下", quote: "力量在於當下", rhyme: "這。清。導。", content: "過去已逝，未來未卜。擁抱當下時刻，衡量你現在的位置。你的力量在於此時此地——把握今天！" }
+        ],
+        management: [
+            { name: "習慣契約", quote: "以承諾改變例行公事", rhyme: "計。展。禁。", content: "磨平日常例行公事的粗糙邊緣。通過承諾和專注，將無效習慣轉化為精良、富有成效的行為。一致性是將小改變轉化為大成果的關鍵。" }
+        ],
+        culture: [
+            { name: "永不停止創造", quote: "讓想像力自由流淌", rhyme: "夢。流。束。", content: "創造力無限。海綿從各處吸收靈感，提醒你不斷創造並在過程中找到快樂。這不是競爭，而是讓想像力自由流淌。" }
+        ],
+        innovation: [
+            { name: "25 點寫作", quote: "整理思路，創造清晰", rhyme: "寫。視。亮。", content: "寫作前先瞄準。25 支彩色鉛筆整理思想和想法，創造生動有力的東西。有意圖的寫作帶來清晰和創造力。" }
+        ]
+    }
+};
+
+// Reflection prompts in both languages
+const reflectionPrompts = {
+    en: {
+        philosophy: [
+            "What's one thing in your life that deserves more focus right now?",
+            "How can you apply this wisdom to your current situation?",
+            "What small step can you take today to embrace this insight?"
+        ],
+        management: [
+            "How can this principle improve your productivity?",
+            "What's one area of your work that could benefit from this approach?",
+            "What action will you take to implement this strategy?"
+        ],
+        culture: [
+            "How can this idea strengthen your relationships?",
+            "What's one way you can share this wisdom with others?",
+            "How does this connect to your personal values?"
+        ],
+        innovation: [
+            "What creative solution could this inspire?",
+            "How can you apply this to solve a current challenge?",
+            "What new possibility does this open up for you?"
+        ]
+    },
+    zh: {
+        philosophy: [
+            "你生活中現在有什麼值得更多關注？",
+            "你如何將這智慧應用於當前情況？",
+            "今天你可以採取什麼小步驟來擁抱這洞察？"
+        ],
+        management: [
+            "這原則如何提升你的生產力？",
+            "你工作中哪個領域可以從這方法中受益？",
+            "你會採取什麼行動來實施這策略？"
+        ],
+        culture: [
+            "這想法如何加強你的關係？",
+            "你可以用什麼方式與他人分享這智慧？",
+            "這如何與你的個人價值觀聯繫？"
+        ],
+        innovation: [
+            "這可以激發什麼創意解決方案？",
+            "你如何應用這個來解決當前挑戰？",
+            "這為你開啟了什麼新可能性？"
+        ]
+    }
+};
+
+// Current language
+let currentLang = 'en';
+
+// Language detection (checks URL parameter or defaults to English)
+function detectLanguage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    if (urlLang === 'zh' || urlLang === 'zh-hk') {
+        currentLang = 'zh';
+    } else if (window.location.pathname.includes('/zh') || window.location.pathname.includes('/chinese')) {
+        currentLang = 'zh';
+    }
+    updateContent();
+}
+
+// Toggle language
+function toggleLanguage() {
+    currentLang = currentLang === 'en' ? 'zh' : 'en';
+    updateContent();
+}
+
+// Update all content based on current language
+function updateContent() {
+    const t = translations[currentLang];
+    
+    // Update UI text
+    document.getElementById('mainTitle').textContent = t.mainTitle;
+    document.getElementById('mainSubtitle').textContent = t.mainSubtitle;
+    document.getElementById('tryTitle').textContent = t.tryTitle;
+    document.getElementById('step1Title').textContent = t.step1Title;
+    document.getElementById('step1Text').textContent = t.step1Text;
+    document.getElementById('step2Title').textContent = t.step2Title;
+    document.getElementById('step2Text').textContent = t.step2Text;
+    document.getElementById('step3Title').textContent = t.step3Title;
+    document.getElementById('step3Text').textContent = t.step3Text;
+    document.getElementById('userQuestion').placeholder = t.placeholder;
+    document.getElementById('shuffleBtn').textContent = t.shuffleBtn;
+    document.getElementById('questionsTitle').textContent = t.questionsTitle;
+    document.getElementById('questionsSubtitle').textContent = t.questionsSubtitle;
+    
+    // Update language toggle button
+    document.querySelector('.language-toggle').textContent = currentLang === 'en' ? '中文' : 'English';
+    
+    // Update questions grid
+    updateQuestionsGrid();
+}
+
+// Update questions grid
+function updateQuestionsGrid() {
+    const questionsGrid = document.getElementById('questionsGrid');
+    const questions = translations[currentLang].sampleQuestions;
+    
+    questionsGrid.innerHTML = questions.map(q => `
+        <div class="question-card" onclick="fillQuestion('${q.text}')">
+            <strong>${q.icon} ${q.title}</strong><br>
+            ${q.text}
+        </div>
+    `).join('');
+}
+
+// Fill question into input field
+function fillQuestion(question) {
+    document.getElementById('userQuestion').value = question;
+    document.getElementById('userQuestion').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => {
+        document.getElementById('userQuestion').focus();
+    }, 500);
+}
+
+// Shuffle card function
+function shuffleCard() {
+    const selectedCardDiv = document.getElementById('selectedCard');
+    const shuffleBtn = document.querySelector('.shuffle-btn');
+    const question = document.getElementById('userQuestion').value;
+    const t = translations[currentLang];
+    
+    // Animation and loading state
+    selectedCardDiv.classList.add('card-shuffle');
+    shuffleBtn.textContent = t.shuffling;
+    shuffleBtn.disabled = true;
+    
+    setTimeout(() => {
+        // Get all cards for current language
+        const cards = cardData[currentLang];
+        const allCards = [
+            ...cards.philosophy.map(card => ({...card, category: 'philosophy'})),
+            ...cards.management.map(card => ({...card, category: 'management'})),
+            ...cards.culture.map(card => ({...card, category: 'culture'})),
+            ...cards.innovation.map(card => ({...card, category: 'innovation'}))
+        ];
+        
+        // Select random card
+        const randomCard = allCards[Math.floor(Math.random() * allCards.length)];
+        const prompts = reflectionPrompts[currentLang][randomCard.category];
+        
+        selectedCardDiv.innerHTML = `
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h3 style="color: #fff; margin-bottom: 1rem; font-size: 2rem;">${randomCard.name}</h3>
+                <p style="font-style: italic; font-size: 1.3rem; margin-bottom: 1rem; color: #cbd5e0;">"${randomCard.quote}"</p>
+                <div style="margin-bottom: 1.5rem;">
+                    <span style="background: ${getThemeColor(randomCard.category)}; color: white; padding: 0.75rem 1.5rem; border-radius: 25px; font-size: 1rem; margin-right: 1rem; text-transform: capitalize;">${randomCard.category}</span>
+                    <span style="color: #e2e8f0; font-weight: 600; font-size: 1.1rem;">${randomCard.rhyme}</span>
+                </div>
+            </div>
+            
+            ${question ? `<div style="margin: 2rem 0; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 20px; border-left: 5px solid ${getThemeColor(randomCard.category)};">
+                <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">${t.yourQuestion}</h4>
+                <p style="color: #e2e8f0; font-style: italic; font-size: 1.1rem;">${question}</p>
+            </div>` : ''}
+            
+            <div style="margin: 2rem 0; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 20px;">
+                <h4 style="margin-bottom: 1rem; color: #fff; font-size: 1.2rem;">${t.cardWisdom}</h4>
+                <p style="color: #e2e8f0; line-height: 1.8; font-size: 1.1rem;">${randomCard.content}</p>
+            </div>
+            
+            <div style="margin: 2rem 0;">
+                <h4 style="margin-bottom: 1.5rem; color: #fff; font-size: 1.2rem;">${t.insightBooster}</h4>
+                ${prompts.map((prompt, index) => `
+                    <div style="margin-bottom: 1rem; padding: 1rem; border-left: 4px solid ${getThemeColor(randomCard.category)}; background: rgba(255,255,255,0.05); border-radius: 0 10px 10px 0;">
+                        <span style="color: ${getThemeColor(randomCard.category)}; font-weight: bold;">${index + 1}.</span>
+                        <span style="color: #e2e8f0; margin-left: 0.5rem; font-size: 1.1rem;">${prompt}</span>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <div style="margin-top: 3rem; text-align: center;">
+                <button onclick="window.location.reload()" class="secondary-btn action-btn">${t.askAnotherBtn}</button>
+            </div>
+        `;
+        
+        selectedCardDiv.style.display = 'block';
+        selectedCardDiv.classList.remove('card-shuffle');
+        shuffleBtn.textContent = t.shuffleBtn;
+        shuffleBtn.disabled = false;
+        
+        // Hide the questions section after shuffling
+        document.getElementById('questionsSection').style.display = 'none';
+        
+        // Scroll to show the result
+        selectedCardDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 1200);
+}
+
+// Utility function to get theme colors
+function getThemeColor(category) {
+    const colors = {
+        philosophy: '#2b6cb0',  // Blue
+        management: '#d69e2e',  // Orange
+        culture: '#e53e3e',     // Red
+        innovation: '#38a169'   // Green
+    };
+    return colors[category] || '#667eea';
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    detectLanguage();
+});
+</script>
+</body>
+</html>
