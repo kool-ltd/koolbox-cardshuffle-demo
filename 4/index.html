@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KoolBox - PAR Step</title>
     <style>
+        /* Same CSS as before - keeping unchanged for brevity */
         * {
             margin: 0;
             padding: 0;
@@ -312,7 +313,7 @@
     </main>
 
     <script>
-// Language content
+// Language content (same as before)
 const translations = {
     en: {
         mainTitle: "The PAR Step",
@@ -380,7 +381,7 @@ const translations = {
     }
 };
 
-// Card data in both languages
+// Card data and reflection prompts (same as before)
 const cardData = {
     en: {
         philosophy: [
@@ -416,7 +417,6 @@ const cardData = {
     }
 };
 
-// Reflection prompts in both languages
 const reflectionPrompts = {
     en: {
         philosophy: [
@@ -467,46 +467,93 @@ const reflectionPrompts = {
 // Current language
 let currentLang = 'en';
 
-// Enhanced language detection
+// Enhanced language detection for Wix
 function detectLanguage() {
-    const fullUrl = window.location.href.toLowerCase();
-    const pathname = window.location.pathname.toLowerCase();
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlLang = urlParams.get('lang');
-    
     console.log('Detecting language...');
-    console.log('Full URL:', fullUrl);
-    console.log('Pathname:', pathname);
-    console.log('URL Lang param:', urlLang);
+    
+    // Method 1: Check current URL
+    const currentUrl = window.location.href.toLowerCase();
+    const currentPath = window.location.pathname.toLowerCase();
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Method 2: Check parent frame URL (for Wix embeds)
+    let parentUrl = '';
+    let parentPath = '';
+    try {
+        if (window.parent && window.parent !== window) {
+            parentUrl = window.parent.location.href.toLowerCase();
+            parentPath = window.parent.location.pathname.toLowerCase();
+            console.log('Parent URL:', parentUrl);
+            console.log('Parent Path:', parentPath);
+        }
+    } catch (e) {
+        console.log('Cannot access parent frame (cross-origin)');
+    }
+    
+    // Method 3: Check for Wix language signals
+    const htmlLang = document.documentElement.lang;
+    const browserLang = navigator.language || navigator.userLanguage;
+    
+    console.log('Current URL:', currentUrl);
+    console.log('Current Path:', currentPath);
+    console.log('HTML lang attr:', htmlLang);
+    console.log('Browser lang:', browserLang);
     
     // Check URL parameter first
-    if (urlLang === 'zh' || urlLang === 'zh-hk') {
+    if (urlParams.get('lang') === 'zh' || urlParams.get('lang') === 'zh-hk') {
         currentLang = 'zh';
         console.log('Language set to Chinese via URL parameter');
     }
-    // Check if URL contains zh/ patterns
-    else if (fullUrl.includes('/zh/') || 
-             fullUrl.includes('zh/') || 
-             pathname.includes('/zh/') || 
-             pathname.includes('/zh') ||
-             pathname.startsWith('zh/') ||
-             pathname.startsWith('/zh/')) {
+    // Check parent URL for zh patterns
+    else if (parentUrl.includes('/zh/') || 
+             parentUrl.includes('zh/') || 
+             parentPath.includes('/zh/') || 
+             parentPath.includes('/zh') ||
+             parentPath.startsWith('zh/')) {
         currentLang = 'zh';
-        console.log('Language set to Chinese via URL path detection');
+        console.log('Language set to Chinese via parent URL detection');
     }
-    // Check for other Chinese indicators
-    else if (fullUrl.includes('chinese') || 
-             fullUrl.includes('hk') || 
-             pathname.includes('chinese')) {
+    // Check current URL for zh patterns
+    else if (currentUrl.includes('/zh/') || 
+             currentUrl.includes('zh/') || 
+             currentPath.includes('/zh/') || 
+             currentPath.includes('/zh') ||
+             currentPath.startsWith('zh/')) {
+        currentLang = 'zh';
+        console.log('Language set to Chinese via current URL detection');
+    }
+    // Check HTML lang attribute
+    else if (htmlLang && (htmlLang.startsWith('zh') || htmlLang.includes('hk'))) {
+        currentLang = 'zh';
+        console.log('Language set to Chinese via HTML lang attribute');
+    }
+    // Check browser language as fallback
+    else if (browserLang && (browserLang.startsWith('zh') || browserLang.includes('hk'))) {
+        currentLang = 'zh';
+        console.log('Language set to Chinese via browser language');
+    }
+    // Force Chinese if we detect Wix Chinese patterns
+    else if (currentUrl.includes('chinese') || 
+             parentUrl.includes('chinese') ||
+             currentUrl.includes('hk') || 
+             parentUrl.includes('hk')) {
         currentLang = 'zh';
         console.log('Language set to Chinese via keyword detection');
     }
+    // Default to English
     else {
         currentLang = 'en';
         console.log('Language set to English (default)');
     }
     
     console.log('Final language:', currentLang);
+    updateContent();
+}
+
+// Manual language override (for testing)
+function forceLanguage(lang) {
+    currentLang = lang;
+    console.log('Language manually set to:', currentLang);
     updateContent();
 }
 
@@ -567,20 +614,18 @@ function fillQuestion(question) {
     }, 500);
 }
 
-// Shuffle card function
+// Shuffle card function (same as before)
 function shuffleCard() {
     const selectedCardDiv = document.getElementById('selectedCard');
     const shuffleBtn = document.querySelector('.shuffle-btn');
     const question = document.getElementById('userQuestion').value;
     const t = translations[currentLang];
     
-    // Animation and loading state
     selectedCardDiv.classList.add('card-shuffle');
     shuffleBtn.textContent = t.shuffling;
     shuffleBtn.disabled = true;
     
     setTimeout(() => {
-        // Get all cards for current language
         const cards = cardData[currentLang];
         const allCards = [
             ...cards.philosophy.map(card => ({...card, category: 'philosophy'})),
@@ -589,7 +634,6 @@ function shuffleCard() {
             ...cards.innovation.map(card => ({...card, category: 'innovation'}))
         ];
         
-        // Select random card
         const randomCard = allCards[Math.floor(Math.random() * allCards.length)];
         const prompts = reflectionPrompts[currentLang][randomCard.category];
         
@@ -633,10 +677,7 @@ function shuffleCard() {
         shuffleBtn.textContent = t.shuffleBtn;
         shuffleBtn.disabled = false;
         
-        // Hide the questions section after shuffling
         document.getElementById('questionsSection').style.display = 'none';
-        
-        // Scroll to show the result
         selectedCardDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 1200);
 }
@@ -644,10 +685,10 @@ function shuffleCard() {
 // Utility function to get theme colors
 function getThemeColor(category) {
     const colors = {
-        philosophy: '#2b6cb0',  // Blue
-        management: '#d69e2e',  // Orange
-        culture: '#e53e3e',     // Red
-        innovation: '#38a169'   // Green
+        philosophy: '#2b6cb0',
+        management: '#d69e2e',
+        culture: '#e53e3e',
+        innovation: '#38a169'
     };
     return colors[category] || '#667eea';
 }
@@ -655,6 +696,11 @@ function getThemeColor(category) {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     detectLanguage();
+    
+    // Debug: Add manual override buttons in console
+    window.forceEnglish = () => forceLanguage('en');
+    window.forceChinese = () => forceLanguage('zh');
+    console.log('Debug: Use forceEnglish() or forceChinese() in console to test');
 });
 </script>
 </body>
